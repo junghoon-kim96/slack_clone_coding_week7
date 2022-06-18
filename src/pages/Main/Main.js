@@ -58,6 +58,7 @@ margin: 0;
 `;
 
 const CenterHead = styled.div`
+width: 80vw;
 padding:0;
 margin:0;
 `;
