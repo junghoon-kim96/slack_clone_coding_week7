@@ -1,0 +1,19 @@
+import './App.css';
+import { Routes, Route } from "react-router-dom"
+import Main from "./pages/Main/Main"
+// import Login from "./pages/Login/Login"
+// import SignUp from "./pages/SignUp/Signup"
+
+function App() {
+  return (
+    <div className="App">
+      <Routes>
+        <Route path="/" element={<Main />}></Route>
+        {/* <Route path="/login" element={<Login />}></Route>
+        <Route path="/signup" element={<SignUp />}></Route> */}
+      </Routes>
+    </div>
+  );
+}
+
+export default App;
