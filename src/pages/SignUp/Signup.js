@@ -56,16 +56,16 @@ function SignUp() {
         
 
             <div>
-
+                 <Header><img src='https://raw.githubusercontent.com/lnuvy/slack-clone-front/master/src/shared/images/slackLogo.png'/></Header>
 
                 <div >
-                                <input type="file"   onChange={UpImageUrl}  ref={profile_ref} /> <br/>
-                                <input type="text" onChange={(e) => setUserName(e.target.value)}  ref={id_ref} /><br/>
+                                <Input type="file"   onChange={UpImageUrl}  ref={profile_ref} /> <br/>
+                                <Input type="text" onChange={(e) => setUserName(e.target.value)}  ref={id_ref} /><br/>
                        
                                 
-                                <input type="password" onChange={(e) => setPwd(e.target.value)} ref={pw_ref}  /><br/>
+                                <Input type="password" onChange={(e) => setPwd(e.target.value)} ref={pw_ref}  /><br/>
                                
-                                <input type="password" onChange={(e) => setPwdCheck(e.target.value)} ref={pw_check_ref} /><br/>
+                                <Input type="password" onChange={(e) => setPwdCheck(e.target.value)} ref={pw_check_ref} /><br/>
                                 
                                
                       
@@ -90,6 +90,17 @@ function SignUp() {
     );
 }
 
+const Header = styled.div`
+text-align: center;
+  margin-top: 100px;
+  margin-bottom: 50px;
+  & > img { height:34px; 
+            width:134px;
+        }
+`
+const Input = styled.input`
+
+`
 
 
 export default SignUp
