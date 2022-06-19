@@ -2,7 +2,7 @@ import React from 'react';
 import { useNavigate,Link } from 'react-router-dom';
 import styled from 'styled-components'
 import axios from 'axios'
-import { storage } from '../shared/firebase';
+import { storage } from '../../shared/firebase';
 import { ref, uploadBytes, getDownloadURL } from 'firebase/storage'
 
 function SignUp() {
@@ -79,7 +79,7 @@ function SignUp() {
         <div >
             <LinkContainer>
                 이미 회원이신가요? <br />
-                <Link to="/">로그인하러가기</Link>
+                <Link to="/login">로그인하러가기</Link>
             </LinkContainer>
             
             <Header>
