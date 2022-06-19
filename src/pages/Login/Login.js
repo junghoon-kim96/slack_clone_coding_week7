@@ -35,7 +35,7 @@ function LogIn() {
             "password": pw_ref.current.value
         }).then(function (response) {
             alert("로그인 되었습니다!")
-            navigate('/');
+            navigate('/main');
 
             localStorage.setItem('access_token', response.data.token);
 

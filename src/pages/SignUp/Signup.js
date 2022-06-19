@@ -82,10 +82,11 @@ function SignUp() {
                 <Link to="/login">로그인하러가기</Link>
             </LinkContainer>
             
+            <Form>
+                
             <Header>
                 <img src='https://raw.githubusercontent.com/lnuvy/slack-clone-front/master/src/shared/images/slackLogo.png' />
             </Header>
-            <Form>
                 <Label >
                     <span>이메일 주소</span>
                     <div>
@@ -178,6 +179,7 @@ const Header = styled.header`
 `;
 
 const Form = styled.form`
+transform: translate(0%,-15%);      
   margin: 0 auto;
   width: 400px;
   max-width: 400px;
@@ -253,7 +255,7 @@ export const LinkContainer = styled.p`
 font-size: 13px;
 color: #616061;
 
-margin: 60px 60px 0px;
+margin: 50px 60px 0px;
 
 text-align: right;
 & a {
