@@ -36,12 +36,19 @@
 ## 🎨 프로젝트 와이어프레임
 
 <br/>
+
+![로그인화면](https://user-images.githubusercontent.com/107375500/174505408-77f9c490-d7e5-41e8-8d47-6c386fb3037e.png)
+![회원가입1](https://user-images.githubusercontent.com/107375500/174505419-9f1813e8-63a0-4149-85fa-8ebf3e10d5f0.png)
+![슬랙시작](https://user-images.githubusercontent.com/107375500/174505425-8705e15a-1cb3-4871-86d1-fe720227d2b0.png)
+![채널입장](https://user-images.githubusercontent.com/107375500/174505433-a1cee5e9-d044-4373-9018-02bca25b6de6.png)
+![채널검색창](https://user-images.githubusercontent.com/107375500/174505440-e1ae5a25-3391-4b59-bc95-6478319dbdfb.png)
+
 <br/>
 
 ## 👨‍💻 프로젝트 기간
 
 
-2022년 6월 10일 ~ 2022년 6월 16일 (총 7일)
+2022년 6월 17일 ~ 2022년 6월 23일 (총 7일)
 
 
 <br/>
@@ -72,7 +79,7 @@
 <br/>
 
 ## 👍Front-end TEAM👍 
-
+- 최성우
 - 하율찬
 
 
