@@ -8,7 +8,7 @@ function Start() {
         
         
         <Link to= '/login'  
-        style={{backgroundColor: 'lightblue', marginTop: '30px', padding:'5px', borderRadius: '5px'
+        style={{backgroundColor: '#c3b7c3', marginTop: '30px', padding:'5px', borderRadius: '5px'
         ,textDecoration: 'none', color: 'white'}}> 슬랙 시작하기</Link>
       </header>
     </div>
