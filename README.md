@@ -1,93 +1,70 @@
-# HighWay FOOD🥘
+# Getting Started with Create React App
 
-## 프로젝트 소개 😁
+This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
 
-<br/>
-<br/>
+## Available Scripts
 
-## 📚 기술스택 소개
+In the project directory, you can run:
 
-<div align=center>
+### `yarn start`
 
-<p align="center">
+Runs the app in the development mode.\
+Open [http://localhost:3000](http://localhost:3000) to view it in your browser.
 
-<img src="https://img.shields.io/badge/javascript-F7DF1E?style=for-the-badge&logo=javascript&logoColor=black"> 
-<img src="https://img.shields.io/badge/React-47A248?style=for-the-badge&logo=React&logoColor=blue"> 
-<img src="https://img.shields.io/badge/Redux-000000?style=for-the-badge&logo=Redux&logoColor=white">
+The page will reload when you make changes.\
+You may also see any lint errors in the console.
 
-  <br>
+### `yarn test`
 
+Launches the test runner in the interactive watch mode.\
+See the section about [running tests](https://facebook.github.io/create-react-app/docs/running-tests) for more information.
 
+### `yarn build`
 
-<img src="https://img.shields.io/badge/amazonaws-232F3E?style=for-the-badge&logo=amazonaws&logoColor=white">
-<img src="https://img.shields.io/badge/github-181717?style=for-the-badge&logo=github&logoColor=white">
-<img src="https://img.shields.io/badge/git-F05032?style=for-the-badge&logo=git&logoColor=white">
+Builds the app for production to the `build` folder.\
+It correctly bundles React in production mode and optimizes the build for the best performance.
 
-  <br>
-</div>
+The build is minified and the filenames include the hashes.\
+Your app is ready to be deployed!
 
-  
-## 🎬 시연영상
+See the section about [deployment](https://facebook.github.io/create-react-app/docs/deployment) for more information.
 
+### `yarn eject`
 
-<br/>
-<br/>
+**Note: this is a one-way operation. Once you `eject`, you can't go back!**
 
-## 🎨 프로젝트 와이어프레임
+If you aren't satisfied with the build tool and configuration choices, you can `eject` at any time. This command will remove the single build dependency from your project.
 
-<br/>
+Instead, it will copy all the configuration files and the transitive dependencies (webpack, Babel, ESLint, etc) right into your project so you have full control over them. All of the commands except `eject` will still work, but they will point to the copied scripts so you can tweak them. At this point you're on your own.
 
-![로그인화면](https://user-images.githubusercontent.com/107375500/174505408-77f9c490-d7e5-41e8-8d47-6c386fb3037e.png)
-![회원가입1](https://user-images.githubusercontent.com/107375500/174505419-9f1813e8-63a0-4149-85fa-8ebf3e10d5f0.png)
-![슬랙시작](https://user-images.githubusercontent.com/107375500/174505425-8705e15a-1cb3-4871-86d1-fe720227d2b0.png)
-![채널입장](https://user-images.githubusercontent.com/107375500/174505433-a1cee5e9-d044-4373-9018-02bca25b6de6.png)
-![채널검색창](https://user-images.githubusercontent.com/107375500/174505440-e1ae5a25-3391-4b59-bc95-6478319dbdfb.png)
+You don't have to ever use `eject`. The curated feature set is suitable for small and middle deployments, and you shouldn't feel obligated to use this feature. However we understand that this tool wouldn't be useful if you couldn't customize it when you are ready for it.
 
-<br/>
+## Learn More
 
-## 👨‍💻 프로젝트 기간
+You can learn more in the [Create React App documentation](https://facebook.github.io/create-react-app/docs/getting-started).
 
+To learn React, check out the [React documentation](https://reactjs.org/).
 
-2022년 6월 17일 ~ 2022년 6월 23일 (총 7일)
+### Code Splitting
 
+This section has moved here: [https://facebook.github.io/create-react-app/docs/code-splitting](https://facebook.github.io/create-react-app/docs/code-splitting)
 
-<br/>
-<br/>
+### Analyzing the Bundle Size
 
-## 🔨 개발툴
+This section has moved here: [https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size](https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size)
 
--   Server: AWS EC2 (Ubuntu 18.04 LTS)
--   Framework: Express 
--   Language: Javascript
--   Tool : Git, Notion
--   Platform : spring
+### Making a Progressive Web App
 
-<br/>
-<br/>
-  
-## 🛠 구현한 기능 
-- 로그인 
-- 회원가입
-- 로그아웃
-- 메인 페이지
-- 실시간 채팅 (socket, stompjs) 스프링과의 통신을위해
+This section has moved here: [https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app](https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app)
 
- 
+### Advanced Configuration
 
+This section has moved here: [https://facebook.github.io/create-react-app/docs/advanced-configuration](https://facebook.github.io/create-react-app/docs/advanced-configuration)
 
-<br/>
-<br/>
+### Deployment
 
-## 👍Front-end TEAM👍 
-- 최성우
-- 하율찬
+This section has moved here: [https://facebook.github.io/create-react-app/docs/deployment](https://facebook.github.io/create-react-app/docs/deployment)
 
+### `yarn build` fails to minify
 
-<br/>
-<br/>
-
-## 💣 프로젝트 중 힘들었던 점이 있다면?
-
--   
--   
--
+This section has moved here: [https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify](https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify)

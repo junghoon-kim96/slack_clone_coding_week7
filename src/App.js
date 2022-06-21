@@ -1,7 +1,3 @@
-<<<<<<< HEAD
-=======
-
->>>>>>> 106d094945736bd385e44783be13ed8d38526051
 import { Routes, Route } from "react-router-dom"
 import Start from "./pages/Start/Start"
 import Main from "./pages/Main/Main"
