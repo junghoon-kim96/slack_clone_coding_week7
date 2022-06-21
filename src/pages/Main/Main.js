@@ -1,40 +1,90 @@
 import React from "react";
 import styled from "styled-components";
 import logo from "../Login/image/slackLogo.png"
+// import { useNavigate } from "react-router-dom";
+import { useDispatch, useSelector } from "react-redux";
+import { LoadChannelAxios, addchannel, AddChaListAxios, deletechannel, DelChaListAxios } from "../../redux/modules/channel";
 
-
+import ChatBox from "../../components/ChatBox"
 
 const Main = () => {
+    // const navigate = useNavigate();
+    const dispatch = useDispatch();
 
-    const channel = {
-        list: ["7기_c반_공지방", "6기_c반_공지방", "5기_c반_공지방", "4기_c반_공지방", "3기_c반_공지방"],
-        dm: ["최성우", "하율찬", "김정훈", "김창규", "김이안"]
-    };
-    const user = {
-        nickname: "최성우",
-        email: "tjddn8195@naver.com"
+    // 채널 리스트 get axios
+    // React.useEffect(() => {
+    //     dispatch(LoadChannelAxios());
+    // },[])
+    // 채널 리스트 가져오기
+    const chaList = useSelector((state) => state.channel.list);
+    // 채널 추가하기
+    const AddChaList = () => {
+        dispatch(addchannel({
+            channelId: "123",
+            channelName: "채널 이름3",
+            isPrivate: true,
+            isOwner: false,
+        }));
+        // dispatch(AddChaListAxios({
+        //     channelId: "123",
+        //     channelName: "채널 이름3",
+        //     isPrivate: true,
+        //     isOwner: false,
+        // }));
+    }
+    //채널 추가 시 필요
+    // const createRoom = async () => {
+    //     await axios(
+    //       {
+    //         url: "/room",
+    //         method: "post",
+    //         baseURL: "http://54.180.154.178",
+    //         data: {
+    //           "name": roomId,
+    //         },
+    //       })
+    //       .then((res) => {
+    //         console.log(JSON.stringify(res.data));
+    //         setRoomId(res.data.roomId);
+    //         getRoom();
+    //       })
+    //       .catch((error) => {
+    //         console.log(error);
+    //       });
+    //   }
+    const DelChaList = (channelId) => {
+        // dispatch(DelChaListAxios(channelId));
+        // dispatch(deletechannel(channelId));
     }
 
-    const chat = [
-        {
-            nickname: "최성우",
-            message: "이렇게 하는게 맞나?",
-            img: logo
-        },
-        {
-            nickname: "하율찬",
-            message: "아마도? 맞나?",
-            img: logo
-        },
-    ];
+    const channel = {
+        dm: ["최성우", "하율찬", "김정훈", "김창규", "김이안"]
+    };
 
+    // 채널 정보 넘기기
+    const [channelInfo, SetChannelInfo] = React.useState({});
 
-
-    const [ch, setCh] = React.useState(false);
-    const [Dm, setDm] = React.useState(false);
+    //우측 프로필 칸
+    // 로그인 유저 정보 -> localstorage.getItem(user) 사용
+    const user = useSelector((state) => state.user.list);
+    //다른 사람 프로필 검색할 때 사용
+    const new_user = useSelector((state) => state.user.new);
+    const [proInfo, setProInfo] = React.useState({
+        userId: "",
+        username: "",
+        nickname: "",
+        iconUrl: "",
+    })
+    const UserProfile = () => {
+        setProInfo(user);
+        setProfile(true);
+    }
+    //프로필 창 열고 닫기
     const [profile, setProfile] = React.useState(false);
 
-
+    //채널 메세지 열고 닫기
+    const [ch, setCh] = React.useState(false);
+    const [Dm, setDm] = React.useState(false);
     const isChOpen = () => {
         if (ch) {
             setCh(false);
@@ -50,6 +100,13 @@ const Main = () => {
         }
     }
 
+    const logout = () => {
+        // localStorage.removeItem("Authorization");
+        // localStorage.removeItem("RefreshToken");
+        // localStorage.removeItem("user");
+        // navigate("/login");
+    }
+
     return (
         < Page >
             <Head >
@@ -58,14 +115,14 @@ const Main = () => {
                     <SearchID>검색하기</SearchID>
                 </CenterHead>
                 <RightHead>
-                    <ProfileImg src={logo} onClick={() => setProfile(true)} />
+                    <ProfileImg src={logo} onClick={UserProfile} />
                 </RightHead>
             </Head >
             <Body>
                 <LefeBody>
                     <LeftTitle>
                         <LeftT>HangHae99</LeftT>
-                        <LeftNewBtn>작</LeftNewBtn>
+                        <LeftNewBtn onClick={AddChaList}>작</LeftNewBtn>
                     </LeftTitle>
                     <LeftChannel>
                         <LeftChTi>
@@ -78,11 +135,15 @@ const Main = () => {
                         </LeftChTi>
                         {ch ? (
                             <LeftMap>
-                                {channel.list.map((list, idx) => {
+                                {chaList.map((list, idx) => {
                                     return (
-                                        <LeftMapList key={idx}>
-                                            <div style={{ width: "20px", height: "20px" }}>👌</div>
-                                            <div style={{ marginLeft: "10px" }}>{list}</div>
+                                        <LeftMapList onClick={()=>SetChannelInfo(list)} key={idx}>
+                                            {(list.isPrivate === true) ?
+                                                (<div style={{ width: "20px", height: "20px" }}>👌</div>)
+                                                : (<div style={{ width: "20px", height: "20px" }}>🖐</div>)}
+                                            <div style={{ marginLeft: "10px", marginRight: "40%" }}>{list.channelName}</div>
+                                            {(list.isPrivate === true) ?
+                                                (<div onClick={()=>{DelChaList(list.channelId)}}>x</div>) : (null)}
                                         </LeftMapList>
                                     )
                                 })}
@@ -104,7 +165,8 @@ const Main = () => {
                                     return (
                                         <LeftMapList key={idx}>
                                             <div style={{ width: "20px", height: "20px" }}>👌</div>
-                                            <div style={{ marginLeft: "10px" }}>{list}</div>
+                                            <div style={{ marginLeft: "10px", marginRight: "55%" }}>{list}</div>
+                                            <div>x</div>
                                         </LeftMapList>
                                     )
                                 })}
@@ -112,59 +174,28 @@ const Main = () => {
                         ) : (null)}
                     </LeftChannel>
                 </LefeBody>
-
-                <CenterBody>
-                    <CenterHeader>
-                        <ChannelTitle>
-                            <div style={{ marginRight: "5px" }}>👌</div>
-                            <div>채널 타이틀</div>
-                        </ChannelTitle>
-                        <ChannelPeople>
-                            <div style={{ marginRight: "5px" }}>👌</div>
-                            <div>71</div>
-                        </ChannelPeople>
-                    </CenterHeader>
-                    <ChattingDiv>
-                        {chat.map((list, idx) => {
-                            return (
-                                <SingleMes key={idx}>
-                                    <ChatImg src={list.img} />
-                                    <SingleMesInfo>
-                                        <div style={{fontWeight:"600"}}>{list.nickname}</div>
-                                        <div>{list.message}</div>
-                                    </SingleMesInfo>
-                                </SingleMes>
-                            )
-                        })
-                        }
-                    </ChattingDiv>
-                    <MessageBox> 
-                        <MessageInput placeholder="메세지 보내기" />
-                        </MessageBox>
-                </CenterBody>
-
+                <ChatBox channelInfo = {channelInfo}/>
                 {profile ? (
                     <RightBody>
                         <Profile>
                             <div style={{ marginRight: "75%" }}>프로필</div>
                             <div onClick={() => setProfile(false)}>x</div>
                         </Profile>
-                        <ProfileBig src={logo} />
+                        <ProfileBig src={proInfo.iconUrl} />
                         <NameEditDiv>
-                            <ProfileName>{user.nickname}</ProfileName>
-                            <Edit>편집</Edit>
+                            <ProfileName>{proInfo.nickname}</ProfileName>
                         </NameEditDiv>
                         <ContactDiv>
                             <ContInfo>Contact information</ContInfo>
-                            <Edit>Edit</Edit>
                         </ContactDiv>
                         <InfoDiv>
                             <EmailIcon>✉</EmailIcon>
                             <EmailDiv >
                                 <h5 style={{ margin: "0" }}>Email Address</h5>
-                                <EmailInfo>{user.email}</EmailInfo>
+                                <EmailInfo>{proInfo.username}</EmailInfo>
                             </EmailDiv >
                         </InfoDiv>
+                        <button style={{ width: "80%", margin: "0 auto" }} onClick={logout}>로그아웃</button>
                     </RightBody>
                 ) : (null)}
             </Body>
@@ -334,85 +365,7 @@ display: flex;
 flex-direction: row;
 `;
 
-// 가운데 채팅
-const CenterBody = styled.div`
-width:100%;
-background-color: white;
-`;
 
-const CenterHeader = styled.div`
-z-index: 10;
-display: flex;
-flex-direction: row;
-align-items: center;
-padding: 10px 20px;
-margin: 10px 0;
-font-size: 20px;
-font-weight: 600;
-border-bottom: 1px solid lightgray;
-`;
-
-const ChannelTitle = styled.div`
-display: flex;
-flex-direction: row;
-margin-right: 72%;
-`;
-
-const ChannelPeople = styled.div`
-display: flex;
-flex-direction: row;
-border: 1px solid lightgray;
-padding: 0 10px;
-font-size: 15px;
-`
-const ChattingDiv = styled.div`
-display: flex;
-flex-direction: column-reverse;
-width: calc(100%-20px);
-height: 70%;
-padding: 20px;
-border: 1px solid black;
-`;
-
-const SingleMes = styled.div`
-display: flex;
-flex-direction: row;
-border: 1px solid red;
-border-radius: 5px;
-margin: 5px 0;
-&:hover{
-    background-color: #ececec;
-}
-`;
-
-const ChatImg = styled.img`
-width: 36px;
-height: 36px;
-border-radius: 5px;
-`;
-
-const SingleMesInfo =styled.div`
-display: flex;
-flex-direction: column;
-margin-left: 10px;
-text-align: left;
-`;
-
-const MessageBox = styled.div`
-height: 116px;
-position: relative;
-width: calc(100%-20px);
-top: 10px;
-margin: 0px;
-`;
-
-const MessageInput = styled.input`
-width: 95%;
-height: 85%;
-padding: 5px;
-border: 1px solid lightgray;
-border-radius: 5px;
-`;
 
 //오른쪽 프로필
 const RightBody = styled.div`
