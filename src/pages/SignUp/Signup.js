@@ -15,13 +15,15 @@ function SignUp() {
     const nickname_ref = React.useRef(null);
 
     const [profile,setprofile] = React.useState("");
-    const [username, setUserName] = React.useState("");
+    const [username, setUsername] = React.useState("");
     const [password, setPwd] = React.useState("");
     const [pwdCheck, setPwdCheck] = React.useState("");
     const [nickname, setNickName] = React.useState("");
+
+
     const UpImageUrl = async (e) => {
 
-        setprofile(e.target.value)
+        
         const upload_file = await uploadBytes(
             ref(storage, `images/${e.target.files[0].name}`),
             e.target.files[0]
@@ -30,34 +32,41 @@ function SignUp() {
         
         const file_url = await getDownloadURL(upload_file.ref)
         profile_ref.current = { url: file_url };
-
+        setprofile(profile_ref.current.url)
         
     };
 
 
     const signupdata = () => {
+       
+          
+        axios({
 
-        axios.post("http://localhost:5001/list", {
-
-            "userImageUrl": profile_ref.current.url,
-            "userId": id_ref.current.value,
-            "Nickname": nickname_ref.current.value,
-            "password": pw_ref.current.value,
-
-        }).then((response) => {
-
-            console.log(profile_ref.current?.url)
+             method: 'POST',            
+             url: "/api/signup", 
+             data:{
+                username: username,
+                password: password,
+                passwordCheck: pwdCheck ,
+                nickname: nickname,
+                iconUrl: profile,
+             },
+             baseURL:"http://54.180.154.178"
+         }).then((response) => {
+                console.log(response)
+            
             alert("회원가입을 축하드립니다!!")
-            navigate('/');
+            navigate('/login');
 
         }).catch((error) => {
             console.log(error)
+            alert(error.response.data.message)
         })
 
     }
-
+    
     const handlerId = (e) => {
-        setUserName(e.target.value);
+        setUsername(e.target.value);
     }
 
     const handlerPw = (e) => {
@@ -90,7 +99,7 @@ function SignUp() {
                 <Label >
                     <span>이메일 주소</span>
                     <div>
-                        <Input type="email" placeholder="abc@example.com" ref={id_ref} onChange={handlerId} />
+                        <Input type="email"  placeholder="abc@example.com" ref={id_ref} onChange={handlerId} />
                     </div>
                 </Label>
                 <Label>
@@ -102,7 +111,7 @@ function SignUp() {
                         <span>프로필사진</span>
                         <span>
                         <Inlabel htmlFor="files">사진 업로드</Inlabel> 
-                        <Inex htmlFor="files">{profile}</Inex>
+                        <img style={{width:'256px', height:'156px'}} src={profile} />
                         <Input2 type="file" id="files" ref={profile_ref} onChange={UpImageUrl} /> <br />
                         </span>
                       
@@ -153,7 +162,8 @@ border-radius: 4px;
 
 const Inlabel =styled.label`
     border-radius:4px;
-    display: inline-block;
+    display: flex;
+    width: 80px;
     padding: 10px 10px;
     color: #fff;
     vertical-align: middle;
@@ -178,7 +188,7 @@ const Header = styled.header`
         }
 `;
 
-const Form = styled.form`
+const Form = styled.div`
 transform: translate(0%,-15%);      
   margin: 0 auto;
   width: 400px;

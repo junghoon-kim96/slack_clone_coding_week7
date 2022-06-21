@@ -30,18 +30,24 @@ const Login = () => {
 
     
     const loginAxios = () => {
-        axios.post('http://localhost:5001/list', {
-            "userId": id_ref.current.value,
-            "password": pw_ref.current.value
+        axios({
+          method: 'POST',
+          url:"/api/login", 
+          data : {
+            username: username,
+            password: password,
+          },
+          baseURL:"http://54.180.154.178"
         }).then(function (response) {
-            alert("로그인 되었습니다!")
+            alert(response.data.message);
+            
+            
+            localStorage.setItem('access_token', response.headers.authorization);
+            localStorage.setItem('user',JSON.stringify(response.data.userinfo));
             navigate('/main');
-
-            localStorage.setItem('access_token', response.data.token);
-
-            console.log(response)
         }).catch(function (error) {
-            alert("로그인정보가 틀렸습니다.")
+            alert(error.response.data.message);
+            console.log(error)
         })
     }   
 
@@ -90,7 +96,7 @@ const Login = () => {
         }
 `;
 
- const Form = styled.form`
+ const Form = styled.div`
   margin: 0 auto;
   width: 400px;
   max-width: 400px;

@@ -6,6 +6,7 @@ import { useDispatch, useSelector } from "react-redux";
 import { LoadChannelAxios, addchannel, AddChaListAxios, deletechannel, DelChaListAxios } from "../../redux/modules/channel";
 
 import ChatBox from "../../components/ChatBox"
+import Modal from './Modal'
 
 const Main = () => {
     // const navigate = useNavigate();
@@ -18,20 +19,20 @@ const Main = () => {
     // 채널 리스트 가져오기
     const chaList = useSelector((state) => state.channel.list);
     // 채널 추가하기
-    const AddChaList = () => {
-        dispatch(addchannel({
-            channelId: "123",
-            channelName: "채널 이름3",
-            isPrivate: true,
-            isOwner: false,
-        }));
+    // const AddChaList = () => {           모달에창에서
+    //     dispatch(addchannel({
+    //         channelId: "123",
+    //         channelName: "채널 이름3",
+    //         isPrivate: true,
+    //         isOwner: false,
+    //     }));
         // dispatch(AddChaListAxios({
         //     channelId: "123",
         //     channelName: "채널 이름3",
         //     isPrivate: true,
         //     isOwner: false,
         // }));
-    }
+    // }
     //채널 추가 시 필요
     // const createRoom = async () => {
     //     await axios(
@@ -107,6 +108,8 @@ const Main = () => {
         // navigate("/login");
     }
 
+    const [openMoadal,setOpenMoadal] = React.useState(false);
+
     return (
         < Page >
             <Head >
@@ -122,7 +125,10 @@ const Main = () => {
                 <LefeBody>
                     <LeftTitle>
                         <LeftT>HangHae99</LeftT>
-                        <LeftNewBtn onClick={AddChaList}>작</LeftNewBtn>
+                        <LeftNewBtn onClick={()=> {
+                            setOpenMoadal(true);
+                        }}>작</LeftNewBtn>
+                        {openMoadal && <Modal closeModal={setOpenMoadal} />}
                     </LeftTitle>
                     <LeftChannel>
                         <LeftChTi>
