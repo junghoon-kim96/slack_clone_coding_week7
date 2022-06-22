@@ -16,6 +16,8 @@ const Main = () => {
     const navigate = useNavigate();
     const dispatch = useDispatch();
 
+
+
     // 채널 리스트 get axios
     React.useEffect(() => {
         dispatch(loadChannelAxios());
@@ -67,6 +69,9 @@ const Main = () => {
         setProfile(true);
     }
 
+    //친구 검색창 열고 닫기
+    const [searchBar,setSearchBar] = React.useState(false)
+
     //프로필 창 열고 닫기
     const [profile, setProfile] = React.useState(false);
 
@@ -112,7 +117,8 @@ const Main = () => {
                 <LeftHead></LeftHead>
                 <CenterHead>
                     <SearchID onClick={()=>{setOpenSearch(true)}}>채널에 추가할 아이디 검색</SearchID>
-                    {openSearch  && <SearchUser closeSearch={setOpenSearch} channelInfo={channelInfo} />}
+                    {openSearch  && searchBar && <SearchUser closeSearch={setOpenSearch} channelInfo={channelInfo} />}
+                    
                 </CenterHead>
                 <RightHead>
                     <ProfileImg src={iconUrl} onClick={UserProfile} />
@@ -145,7 +151,8 @@ const Main = () => {
                                 {chaList.map((list, idx) => {
                                     return (
                                         <div style={{ display: "flex", flexDirection: "row" }} key={idx}>
-                                            <LeftMapList onClick={() => SetChannelInfo(list)}>
+                                            <LeftMapList onClick={()=>{SetChannelInfo(list);
+                                                         setSearchBar(true);}}>
                                                 {(list.isPrivate === true) ?
                                                     (<FontAwesomeIcon icon="fa-lock" />)
                                                     : (<FontAwesomeIcon icon="fa-hashtag" />)}
