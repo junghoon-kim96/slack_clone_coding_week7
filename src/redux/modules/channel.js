@@ -80,6 +80,29 @@ export const AddChaListAxios = (data) => {
   }
 }
 
+export const AddUserListAxios = (data) => {
+  axios.defaults.withCredentials = true;
+  return async function (dispatch) {
+    await axios(
+      {
+        url: "/api/channelInvite",
+        method: "post",
+        data: data,
+        baseURL: "http://54.180.154.178",
+        headers: {
+          "authorization": localStorage.getItem('access_token')
+        },
+      }
+    )
+      .then(response => {
+        window.alert(response.data.message)
+      })
+      .catch((response) => {
+        window.alert(response.message)
+      });
+  }
+}
+
 export const DelChaListAxios = (index, channelId) => {
   axios.defaults.withCredentials = true;
   return async function (dispatch) {

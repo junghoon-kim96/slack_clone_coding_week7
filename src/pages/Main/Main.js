@@ -7,6 +7,7 @@ import { loadChannelAxios, addchannel, AddChaListAxios, deletechannel, DelChaLis
 
 import ChatBox from "../../components/ChatBox"
 import Modal from './Modal'
+import SearchUser from "./SearchUser";
 
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 
@@ -99,7 +100,7 @@ const Main = () => {
 
     // 모달창 오픈
     const [openMoadal, setOpenMoadal] = React.useState(false);
-
+    const [openSearch, setOpenSearch] = React.useState(false);
     // 조원 이름
     const channel = {
         dm: ["최성우", "하율찬", "김정훈", "김창규", "김이안"]
@@ -110,7 +111,8 @@ const Main = () => {
             <Head >
                 <LeftHead></LeftHead>
                 <CenterHead>
-                    <SearchID>검색하기</SearchID>
+                    <SearchID onClick={()=>{setOpenSearch(true)}}>채널에 추가할 아이디 검색</SearchID>
+                    {openSearch && <SearchUser closeSearch={setOpenSearch} channelInfo={channelInfo} />}
                 </CenterHead>
                 <RightHead>
                     <ProfileImg src={iconUrl} onClick={UserProfile} />
@@ -146,7 +148,7 @@ const Main = () => {
                                             <LeftMapList onClick={() => SetChannelInfo(list)}>
                                                 {(list.isPrivate === true) ?
                                                     (<FontAwesomeIcon icon="fa-lock" />)
-                                                    : (<FontAwesomeIcon icon="fa-lock-open" />)}
+                                                    : (<FontAwesomeIcon icon="fa-hashtag" />)}
                                                 <div style={{ marginLeft: "10px", width: "95%" }}>{list.channelName}</div>
                                             </LeftMapList>
                                             {

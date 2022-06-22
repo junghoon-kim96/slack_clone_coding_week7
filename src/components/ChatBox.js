@@ -78,7 +78,7 @@ const ChatBox = (props) => {
                 <ChannelTitle>
                     {(channelInfo.isPrivate === true) ?
                         (<FontAwesomeIcon icon="fa-lock" style={{ color: "gray" }} />)
-                        : (<FontAwesomeIcon icon="fa-lock-open" style={{ color: "gray" }} />)}
+                        : (<FontAwesomeIcon icon="fa-hashtag" style={{ color: "gray" }} />)}
                     <div style={{ marginLeft: "10px" }}>{channelInfo.channelName}</div>
                 </ChannelTitle>
                 {/* <div>
