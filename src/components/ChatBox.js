@@ -2,90 +2,95 @@ import React from "react";
 import styled from "styled-components";
 import logo from "../pages/Login/image/slackLogo.png"
 import { useDispatch, useSelector } from "react-redux";
-// import { LoadChatAxios, adduser, deleteuser } from "../redux/modules/channel";
+import { LoadChatAxios } from "../redux/modules/chatlist";
 
-// import * as StompJS from "stompjs";
-// import * as SockJS from "sockjs-client";
+import * as StompJS from "stompjs";
+import * as SockJS from "sockjs-client";
+
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+
 
 const ChatBox = (props) => {
     const dispatch = useDispatch();
     //채널 정보
     const { channelInfo } = props;
+    console.log(channelInfo.channelId);
+    const channelId = channelInfo.channelId
+    const headers = { "Authorization": localStorage.getItem('access_token') };
+    //메세지 보내기
+    const [message, setMessage] = React.useState("");
+    //채팅 기록
+    const chattinglist = useSelector((state) => state.chatlist.list);
+    const [chatting, setChatting] = React.useState(chattinglist);
 
-    // React.useEffect(() => {
-    //     dispatch(LoadChatAxios(channelInfo.channelId));
-    //     connect();
-    //     return () => {};
-    // }, [])
+    React.useEffect(() => {
+        dispatch(LoadChatAxios(channelId))
+        connect();
+        return () => { };
+    }, [channelInfo])
+
+
+    let sock = new SockJS("http://54.180.154.178/socket");
+    let client = StompJS.over(sock);
 
     //socket
-    // const [chatting, setChatting] = React.useState([]);
-    // const [message, setMessage] = React.useState("");
+    const connect = () => {
+        client.connect(headers, onConnected, onError);
+    };
 
-    // let sock = new SockJS("http://54.180.154.178/socket");
-    // let client = StompJS.over(sock);
+    const onConnected = () => {
+        client.subscribe(`/sub/channel/${channelId}`,
+            // onMessageReceived
+            function (message) {
+                console.log(message)
+                if (message.body) {
+                    alert(message.body)
+                } else {
+                    alert("got empty message");
+                }
+            }
+        );
+    };
 
-    // const connect = () => {
-    //     client.connect({}, onConnected, onError);
-    // };
-
-    // const onConnected = () => {
-    //     client.subscribe("/sub/channel/" + channelInfo.channelId,
-    //         // onMessageReceived
-    //         function (message) {
-    //             console.log(message)
-    //             if (message.body) {
-    //                 alert(message.body)
-    //             } else {
-    //                 alert("got empty message");
-    //             }
-    //         }
-    //     );
-    // };
-    // const onError = (err) => {
-    //     console.log(err);
-    // }
+    const onError = (err) => {
+        console.log(err);
+    }
 
     // const onMessageReceived = (payload) => {
     //     console.log(payload)
     //     // var payloadData = JSON.parse(payload.body);
     //     // console.log(payloadData);
-    //     // dispatch(addchatlist({nickname:"", message:"", iconUrl:""}))
-    //     setChatting((list) => [...list, payload]);
+    // const newchating = [payload, ...chattinglist];
+    //     setChatting(newchating);
     // }
 
-    // const sendMessage = () => {
-    //     client.send("/pub/message", {}, JSON.stringify({
-    //         roomId: roomId,
-    //         message: message,
-    //     }))
-    // }
+    const sendMessage = () => {
+        client.send(`/pub/message/${channelId}`, headers, JSON.stringify({
+            message: message,
+        }))
 
-    const chattinglist = useSelector((state) => state.chatlist.list);
-    // const newProfile = (list) =>{
-    //     dispatch(deleteuser(0));
-    //     dispatch(adduser(list))
-    // }
+    }
+
+
     return (
         <CenterBody>
             <CenterHeader>
                 <ChannelTitle>
                     {(channelInfo.isPrivate === true) ?
-                        (<div style={{ width: "20px", height: "20px" }}>👌</div>)
-                        : (<div style={{ width: "20px", height: "20px" }}>🖐</div>)}
+                        (<FontAwesomeIcon icon="fa-lock" style={{ color: "gray" }} />)
+                        : (<FontAwesomeIcon icon="fa-lock-open" style={{ color: "gray" }} />)}
                     <div style={{ marginLeft: "10px" }}>{channelInfo.channelName}</div>
                 </ChannelTitle>
-                <ChannelPeople>
-                    <div style={{ marginRight: "5px" }}>👌</div>
-                    <div>71</div>
-                </ChannelPeople>
+                {/* <div>
+                    {channelInfo.description}
+                </div> */}
             </CenterHeader>
             <ChattingDiv>
-                {chattinglist.map((list, idx) => {
+                {chatting.map((list, idx) => {
                     return (
-                        <SingleMes 
-                        // onClick={newProfile}
-                        key={idx}>
+                        <SingleMes
+                            // onClick={newProfile}
+                            key={idx}>
                             <ChatImg src={list.iconUrl} />
                             <SingleMesInfo>
                                 <div style={{ fontWeight: "600" }}>{list.nickname}</div>
@@ -98,9 +103,9 @@ const ChatBox = (props) => {
             </ChattingDiv>
             <MessageBox>
                 <MessageInput
-                // onChange={(e) => { setMessage(e.target.value) }} 
-                placeholder="메세지 보내기" />
-                {/* <button onClick={sendMessage}>보내기</button> */}
+                    onChange={(e) => { setMessage(e.target.value) }}
+                    placeholder="메세지 보내기" />
+                <button onClick={sendMessage}>보내기</button>
             </MessageBox>
         </CenterBody>
     )
@@ -129,13 +134,6 @@ flex-direction: row;
 margin-right: 72%;
 `;
 
-const ChannelPeople = styled.div`
-display: flex;
-flex-direction: row;
-border: 1px solid lightgray;
-padding: 0 10px;
-font-size: 15px;
-`
 const ChattingDiv = styled.div`
 display: flex;
 flex-direction: column-reverse;

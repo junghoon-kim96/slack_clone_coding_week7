@@ -2,69 +2,96 @@ import React, { useState } from 'react';
 import styled from 'styled-components'
 import axios from 'axios'
 import { useDispatch } from "react-redux";
-import { addchannel, AddChaListAxios } from "../../redux/modules/channel";
+import { AddChaListAxios } from "../../redux/modules/channel";
 import FormControlLabel from '@mui/material/FormControlLabel';
 import Switch from '@mui/material/Switch';
-import { useSearchParams } from 'react-router-dom';
-// var data = require('http://54.180.154.178/channelInvite')
 
 const Modal = ({ closeModal }) => {
-
-    const [loading, setLoading] = React.useState(true);
     const dispatch = useDispatch();
 
-
+    const [loading, setLoading] = React.useState(false);
+    const [userList, setUserList] = React.useState([]);
+    const [desc, setDesc] = useState("")
+    const Des_ref = React.useRef(null);
     const Channl_ref = React.useRef(null);
-    const friend_ref = React.useRef(null);
     const [channel, setchannel] = React.useState('')
     //채널추가하기
     const AddChaList = () => {
-        dispatch(addchannel({
-            channelId: "123",
-            channelName: Channl_ref.current.value,
-            isPrivate: true,
-            isOwner: false,
-        }));
         dispatch(AddChaListAxios({
-            channelId: "123",
-            channelName: Channl_ref.current.value,
-            isPrivate: true,
-            isOwner: false,
+            channelName: channel,
+            isPrivate: loading,
+            userList: userList,
+            description: desc,
         }));
         closeModal(false)
-
-    }
-    // const onSearch = (e) => {
-    //     e.preventDefault();
-    //     if (search === null || search === "") {
-    //         // axios.get("url")
-    //         // .then((response)=>{
-    //         //     setLists(response.data.post)
-    //         // })
-    //         setLists(post_lists);
-    //     } else {
-    //         const filterData = lists.filter((lists) => lists.tag.includes(search))
-    //         setLists(filterData);
-    //     }
-    //     setSearch("");
-    // }
-    const onSearch = (searchTerm) => {
-        setValue(searchTerm);
-        //our api to fetch the search results
-        console.log('search',searchTerm)
     }
 
+    // 추가할 아이디 검색
+    const [value, setValue] = useState('');
+    const [searchUser, setSearchUser] = useState([]);
+    const onSearch = () => {
+        axios.defaults.withCredentials = true;
+        axios({
+            method: 'GET',
+            url: `/api/userSearch?nickname=${value}`,
+            baseURL: "http://54.180.154.178",
+            headers: {
+                "authorization": localStorage.getItem('access_token')
+            }
+        }).then(function (response) {
+            console.log(response)
+            setSearchUser(response.data.list)
 
-    const onChange= (e) => {
+        }).catch(function (error) {
+            alert("조회를 하지 못하였습니다.");
+            console.log(error)
+        })
+
+        setValue("");
+
+    }
+
+    const onChange = (e) => {
         e.preventDefault();
         setValue(e.target.value);
     }
- 
-    const ChannlName = (e) => {
 
+    const ChannlName = (e) => {
         setchannel(e.target.value)
     }
-    const [value, setValue] = useState('');
+
+    const Descript = (e) => {
+        setDesc(e.target.value)
+    }
+
+    const AddUser = (userId) => {
+        if (userList === "" || userList === null) {
+            setUserList([userId])
+        } else {
+            setUserList([...userList, userId])
+        }
+    }
+
+    function FindNick(id) {
+        let nick = "";
+        if (id === "" || id === null) {
+            return (null);
+        } else {
+            for (let i = 0; i < searchUser.length; i++) {
+                if (id === searchUser[i].userId) {
+                    nick = searchUser[i].nickname;
+                }
+            }
+            return (nick);
+        }
+    }
+
+    const DelUser = (index) => {
+        const new_user = userList.filter((l,idx)=> {
+            return parseInt(index) !== idx;
+        });
+        setUserList(new_user);
+    }
 
     return (
         <Container>
@@ -79,52 +106,63 @@ const Modal = ({ closeModal }) => {
                             <Input type="text" ref={Channl_ref} onChange={ChannlName} />
                         </div>
                     </Label>
-
-                    비공개로만들기<br />
+                    <Label >
+                        <span>채널설명</span>
+                        <div>
+                            <Input type="text" ref={Des_ref} onChange={Descript } />
+                        </div>
+                    </Label>
+                    비공개로 만들기<br />
                     <FormControlLabel
-                            sx={{
+                        sx={{
                             display: 'block',
-                            }}
-                            control={
+                        }}
+                        control={
                             <Switch
                                 checked={loading}
                                 onChange={() => setLoading(!loading)}
                                 name="loading"
                                 color="primary"
                             />
-                            }
-                            label="비공개 활성화"
-                        />
+                        }
+                        label="비공개 활성화"
+                    />
 
                     <Label >
                         <span>친구검색하기</span>
                         <div>
                             <Input2 type="text" value={value} onChange={onChange} />
-                            <Button onclick={() =>{onSearch(value)}}>search </Button>
+                            <Button onClick={onSearch}>search </Button>
                         </div>
-                        {/* <div>
-                        {data
-                        .filter((item) => {
-                            const searchTerm = value.toLowerCase();
-                            const fullName = item.userId.toLowerCase();
-
-
-                            return(
-                            searchTerm && fullName.startsWith(searchTerm)&& 
-                            fullName !== searchTerm
-                        );
-                        }).slice(0,5)
-                            .map((item)=> (
-                                <Dropdown 
-                                onclick={() =>{onSearch(item.userId)}}
-                                key={item.userId}> {item.full_name}</Dropdown>
-                            ))}
-                        </div> */}
+                        <div style={{height: "200px",overflowY:"auto"}}>
+                        {searchUser.map((list, index) => {
+                            return (
+                                <div key={index} style={{ display: "flex", flexDirection: "row" }}>
+                                    <img src={list.iconUrl} style={{ width: "50px", height: "50px", borderRadius:"10px"}} />
+                                    <div style={{ textAlign: "left", margin: "0 10px" }}>
+                                        <div>{list.nickname}</div>
+                                        <div>{list.username}</div>
+                                    </div>
+                                    <Button onClick={() => AddUser(list.userId)}>ADD</Button>
+                                </div>
+                            )
+                        })}
+                        </div>
+                        <div style={{ border: "1px solid gray", margin: "10px", padding: "15px" }}>
+                            {userList.map((Id, index) => {
+                                return (
+                                    <div key={index} style={{ display: "flex", flexDirection: "row" }}>
+                                        <div style={{ width: "95%", textAlign: "left" }}>{FindNick(Id)}</div>
+                                        <button onClick={()=>DelUser(index)}>x</button>
+                                    </div>
+                                )
+                            })}
+                        </div>
                     </Label>
                     <Button onClick={AddChaList}>생성</Button>
                 </Contents>
             </ModalBlock>
-          
+
         </Container>
     );
 };

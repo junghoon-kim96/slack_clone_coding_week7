@@ -1,85 +1,71 @@
 import React from "react";
 import styled from "styled-components";
 import logo from "../Login/image/slackLogo.png"
-// import { useNavigate } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
-import { LoadChannelAxios, addchannel, AddChaListAxios, deletechannel, DelChaListAxios } from "../../redux/modules/channel";
+import { loadChannelAxios, addchannel, AddChaListAxios, deletechannel, DelChaListAxios } from "../../redux/modules/channel";
 
 import ChatBox from "../../components/ChatBox"
 import Modal from './Modal'
 
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+
+
 const Main = () => {
-    // const navigate = useNavigate();
+    const navigate = useNavigate();
     const dispatch = useDispatch();
 
     // 채널 리스트 get axios
-    // React.useEffect(() => {
-    //     dispatch(LoadChannelAxios());
-    // },[])
+    React.useEffect(() => {
+        dispatch(loadChannelAxios());
+    }, [])
+
     // 채널 리스트 가져오기
     const chaList = useSelector((state) => state.channel.list);
-    // 채널 추가하기
-    // const AddChaList = () => {           모달에창에서
-    //     dispatch(addchannel({
-    //         channelId: "123",
-    //         channelName: "채널 이름3",
-    //         isPrivate: true,
-    //         isOwner: false,
-    //     }));
-        // dispatch(AddChaListAxios({
-        //     channelId: "123",
-        //     channelName: "채널 이름3",
-        //     isPrivate: true,
-        //     isOwner: false,
-        // }));
-    // }
-    //채널 추가 시 필요
-    // const createRoom = async () => {
-    //     await axios(
-    //       {
-    //         url: "/room",
-    //         method: "post",
-    //         baseURL: "http://54.180.154.178",
-    //         data: {
-    //           "name": roomId,
-    //         },
-    //       })
-    //       .then((res) => {
-    //         console.log(JSON.stringify(res.data));
-    //         setRoomId(res.data.roomId);
-    //         getRoom();
-    //       })
-    //       .catch((error) => {
-    //         console.log(error);
-    //       });
-    //   }
-    const DelChaList = (channelId) => {
-        // dispatch(DelChaListAxios(channelId));
-        // dispatch(deletechannel(channelId));
+
+    function FindChIndex(id) {
+        let index = 0;
+        for (let i = 0; i < chaList.length; i++) {
+            if (id === chaList[i].channelId) {
+                index += i;
+            }
+        }
+        return (index);
     }
 
-    const channel = {
-        dm: ["최성우", "하율찬", "김정훈", "김창규", "김이안"]
-    };
+    const DelChaList = (channelId) => {
+        dispatch(DelChaListAxios(FindChIndex(channelId), channelId));
+        SetChannelInfo({});
+    }
+
+
 
     // 채널 정보 넘기기
-    const [channelInfo, SetChannelInfo] = React.useState({});
-
+    const [channelInfo, SetChannelInfo] = React.useState({channelId : "4"});
+    console.log(channelInfo)
     //우측 프로필 칸
     // 로그인 유저 정보 -> localstorage.getItem(user) 사용
-    const user = useSelector((state) => state.user.list);
-    //다른 사람 프로필 검색할 때 사용
-    const new_user = useSelector((state) => state.user.new);
+    const username = localStorage.getItem("username");
+    const nickname = localStorage.getItem("nickname");
+    const iconUrl = localStorage.getItem("iconUrl");
+
+
+    //프로필 창 용
     const [proInfo, setProInfo] = React.useState({
-        userId: "",
         username: "",
         nickname: "",
         iconUrl: "",
     })
+
     const UserProfile = () => {
-        setProInfo(user);
+        setProInfo({
+            username: username,
+            nickname: nickname,
+            iconUrl: iconUrl,
+        });
         setProfile(true);
     }
+
     //프로필 창 열고 닫기
     const [profile, setProfile] = React.useState(false);
 
@@ -101,36 +87,49 @@ const Main = () => {
         }
     }
 
+    // 로그아웃
     const logout = () => {
-        // localStorage.removeItem("Authorization");
-        // localStorage.removeItem("RefreshToken");
-        // localStorage.removeItem("user");
-        // navigate("/login");
+        localStorage.removeItem("access_token");
+        localStorage.removeItem("username");
+        localStorage.removeItem("nickname");
+        localStorage.removeItem("iconUrl");
+        alert("로그아웃 하셨습니다.");
+        navigate("/login");
     }
 
-    const [openMoadal,setOpenMoadal] = React.useState(false);
+    // 모달창 오픈
+    const [openMoadal, setOpenMoadal] = React.useState(false);
+
+    // 조원 이름
+    const channel = {
+        dm: ["최성우", "하율찬", "김정훈", "김창규", "김이안"]
+    };
 
     return (
         < Page >
             <Head >
-                <LeftHead>돋보기</LeftHead>
+                <LeftHead></LeftHead>
                 <CenterHead>
                     <SearchID>검색하기</SearchID>
                 </CenterHead>
                 <RightHead>
-                    <ProfileImg src={logo} onClick={UserProfile} />
+                    <ProfileImg src={iconUrl} onClick={UserProfile} />
                 </RightHead>
             </Head >
             <Body>
                 <LefeBody>
                     <LeftTitle>
                         <LeftT>HangHae99</LeftT>
-                        <LeftNewBtn onClick={()=> {
+                        <LeftNewBtn onClick={() => {
                             setOpenMoadal(true);
-                        }}>작</LeftNewBtn>
+                        }}>
+                            <FontAwesomeIcon icon="fa-pen" />
+                        </LeftNewBtn>
                         {openMoadal && <Modal closeModal={setOpenMoadal} />}
                     </LeftTitle>
                     <LeftChannel>
+
+
                         <LeftChTi>
                             {ch ? (
                                 <TriT onClick={isChOpen}>▼</TriT>
@@ -143,14 +142,18 @@ const Main = () => {
                             <LeftMap>
                                 {chaList.map((list, idx) => {
                                     return (
-                                        <LeftMapList onClick={()=>SetChannelInfo(list)} key={idx}>
-                                            {(list.isPrivate === true) ?
-                                                (<div style={{ width: "20px", height: "20px" }}>👌</div>)
-                                                : (<div style={{ width: "20px", height: "20px" }}>🖐</div>)}
-                                            <div style={{ marginLeft: "10px", marginRight: "40%" }}>{list.channelName}</div>
-                                            {(list.isPrivate === true) ?
-                                                (<div onClick={()=>{DelChaList(list.channelId)}}>x</div>) : (null)}
-                                        </LeftMapList>
+                                        <div style={{ display: "flex", flexDirection: "row" }}>
+                                            <LeftMapList onClick={() => SetChannelInfo(list)} key={idx}>
+                                                {(list.isPrivate === true) ?
+                                                    (<FontAwesomeIcon icon="fa-lock" />)
+                                                    : (<FontAwesomeIcon icon="fa-lock-open" />)}
+                                                <div style={{ marginLeft: "10px", width: "95%" }}>{list.channelName}</div>
+                                            </LeftMapList>
+                                            {
+                                                (list.isOwner === true) ?
+                                                    (<div onClick={() => { DelChaList(list.channelId) }}>x</div>) : (null)
+                                            }
+                                        </div>
                                     )
                                 })}
                             </LeftMap>
@@ -180,7 +183,7 @@ const Main = () => {
                         ) : (null)}
                     </LeftChannel>
                 </LefeBody>
-                <ChatBox channelInfo = {channelInfo}/>
+                <ChatBox channelInfo={channelInfo} />
                 {profile ? (
                     <RightBody>
                         <Profile>
@@ -369,6 +372,7 @@ padding:0 10px;
 const LeftMapList = styled.div`
 display: flex;
 flex-direction: row;
+width:90%;
 `;
 
 

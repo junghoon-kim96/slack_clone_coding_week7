@@ -39,11 +39,12 @@ const Login = () => {
           },
           baseURL:"http://54.180.154.178"
         }).then(function (response) {
-            alert(response.data.message);
-            
-            
+          console.log(response)
+            alert(response.data.message); 
             localStorage.setItem('access_token', response.headers.authorization);
-            localStorage.setItem('user',JSON.stringify(response.data.userinfo));
+            localStorage.setItem('username',response.data.userinfo.username);
+            localStorage.setItem('nickname',response.data.userinfo.nickname);
+            localStorage.setItem('iconUrl',response.data.userinfo.iconUrl);
             navigate('/main');
         }).catch(function (error) {
             alert(error.response.data.message);
