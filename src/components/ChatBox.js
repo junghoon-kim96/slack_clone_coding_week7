@@ -14,21 +14,18 @@ const ChatBox = (props) => {
     const dispatch = useDispatch();
     //채널 정보
     const { channelInfo } = props;
-    console.log(JSON.stringify(channelInfo));
     const channelId = channelInfo.channelId
     const headers = { "Authorization": localStorage.getItem('access_token') };
     //메세지 보내기
     const [message, setMessage] = React.useState("");
     //채팅 기록
     const chattinglist = useSelector((state) => state.chatlist.list);
-    const [chatting, setChatting] = React.useState(chattinglist);
-    console.log(chatting);
-
+    
     React.useEffect(() => {
         if (channelId !== undefined) {
             dispatch(LoadChatAxios(channelId));
             connect();
-            return () => client.disconnect();;
+            return () => {client.disconnect()};
         }
     }, [channelId])
 
@@ -48,11 +45,7 @@ const ChatBox = (props) => {
                 console.log(message.body)
                 if (message.body) {
                     const new_Data = JSON.parse(message.body);
-                    console.log(new_Data)
-                    const new_list = [new_Data, ...chattinglist]
-                    console.log(new_list)
-                    setChatting(new_list);
-                    dispatch(addchatlist(new_list));
+                     dispatch(addchatlist(new_Data));
                 } else {
                     alert("got empty message");
                 }
@@ -77,13 +70,6 @@ const ChatBox = (props) => {
             channelId: channelId,
             message: message,
         }));
-        dispatch(addchatlist(
-            {
-                message: message,
-                nickname: localStorage.getItem("nickname"),
-                iconUrl: localStorage.getItem("iconUrl")
-            }
-        ));
     }
 
     return (
@@ -100,7 +86,7 @@ const ChatBox = (props) => {
                 </div> */}
             </CenterHeader>
             <ChattingDiv>
-                {chatting.map((list, idx) => {
+                {chattinglist.map((list, idx) => {
                     return (
                         <SingleMes key={idx}>
                             <ChatImg src={list.iconUrl} />

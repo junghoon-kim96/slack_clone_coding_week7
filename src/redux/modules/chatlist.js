@@ -56,7 +56,7 @@ export default function reducer(state = initialState, action = {}) {
     }
 
     case "chatlist/ADD": {
-      const new_chatlist_list = [...state.list, action.chatlist];
+      const new_chatlist_list = [ action.chatlist, ...state.list];
       return { list: new_chatlist_list };
     }
 
