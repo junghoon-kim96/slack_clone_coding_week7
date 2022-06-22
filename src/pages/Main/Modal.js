@@ -211,7 +211,7 @@ const Background = styled.div`
 `;
 
 const ModalBlock = styled.div`
-
+    overflow-y: auto;
     position: absolute;
     top: 6.5rem;
     border-radius: 10px;

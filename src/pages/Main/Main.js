@@ -41,7 +41,7 @@ const Main = () => {
 
 
     // 채널 정보 넘기기
-    const [channelInfo, SetChannelInfo] = React.useState({channelId : "4"});
+    const [channelInfo, SetChannelInfo] = React.useState({});
     console.log(channelInfo)
     //우측 프로필 칸
     // 로그인 유저 정보 -> localstorage.getItem(user) 사용
@@ -142,8 +142,8 @@ const Main = () => {
                             <LeftMap>
                                 {chaList.map((list, idx) => {
                                     return (
-                                        <div style={{ display: "flex", flexDirection: "row" }}>
-                                            <LeftMapList onClick={() => SetChannelInfo(list)} key={idx}>
+                                        <div style={{ display: "flex", flexDirection: "row" }} key={idx}>
+                                            <LeftMapList onClick={() => SetChannelInfo(list)}>
                                                 {(list.isPrivate === true) ?
                                                     (<FontAwesomeIcon icon="fa-lock" />)
                                                     : (<FontAwesomeIcon icon="fa-lock-open" />)}
