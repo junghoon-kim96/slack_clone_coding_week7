@@ -9,6 +9,8 @@ import Switch from '@mui/material/Switch';
 const Modal = ({ closeModal }) => {
     const dispatch = useDispatch();
 
+    const [invitor,setInvitor] = React.useState(false);
+    const [close, setClose] = React.useState(false);
     const [loading, setLoading] = React.useState(false);
     const [userList, setUserList] = React.useState([]);
     const [desc, setDesc] = useState("")
@@ -66,11 +68,19 @@ const Modal = ({ closeModal }) => {
 
     const AddUser = (userId) => {
         if (userList === "" || userList === null) {
-            setUserList([userId])
+            setUserList([userId]) 
+            setInvitor(false)
         } else {
             setUserList([...userList, userId])
-        }
+        } setInvitor(true)
     }
+
+    const toggleHandle =()=>{
+
+        setLoading(!loading)
+        setClose(!close);
+    }
+
 
     function FindNick(id) {
         let nick = "";
@@ -97,7 +107,7 @@ const Modal = ({ closeModal }) => {
         <Container>
             <Background onClick={() => closeModal(false)} />
             <ModalBlock >
-                <Close onClick={() => closeModal(false)} >x</Close>
+                <Close onClick={() => closeModal(false)} >✖️</Close>
                 <Contents>
                     채널생성  <br />
                     <Label >
@@ -120,21 +130,20 @@ const Modal = ({ closeModal }) => {
                         control={
                             <Switch
                                 checked={loading}
-                                onChange={() => setLoading(!loading)}
+                                onChange={toggleHandle}
                                 name="loading"
                                 color="primary"
                             />
                         }
                         label="비공개 활성화"
                     />
-
-                    <Label >
+                    {close ?  <Label >
                         <span>친구검색하기</span>
                         <div>
                             <Input2 type="text" value={value} onChange={onChange} />
                             <Button onClick={onSearch}>search </Button>
                         </div>
-                        <div style={{height: "200px",overflowY:"auto"}}>
+                        <div style={{ height: "200px",overflowY:"auto"}}>
                         {searchUser.map((list, index) => {
                             return (
                                 <div key={index} style={{ display: "flex", flexDirection: "row" }}>
@@ -148,17 +157,18 @@ const Modal = ({ closeModal }) => {
                             )
                         })}
                         </div>
-                        <div style={{ border: "1px solid gray", margin: "10px", padding: "15px" }}>
+                        {invitor ? <div style={{  border: "1px solid gray", float: 'auto' ,margin: "10px", padding: "15px" ,borderRadius: "10px"}}>
                             {userList.map((Id, index) => {
                                 return (
                                     <div key={index} style={{ display: "flex", flexDirection: "row" }}>
-                                        <div style={{ width: "95%", textAlign: "left" }}>{FindNick(Id)}</div>
-                                        <button onClick={()=>DelUser(index)}>x</button>
+                                        <div style={{ width: "95%", textAlign: "left" }} >{FindNick(Id)}</div>
+                                        <button  style={{  display: "inline-block" ,width: "20px",backgroundColor:"white" , border: "1px solid white"   }}  onClick={() => DelUser(index)}>✖️</button>
                                     </div>
                                 )
                             })}
-                        </div>
-                    </Label>
+                        </div>: ""}
+                    </Label>:""}
+                   
                     <Button onClick={AddChaList}>생성</Button>
                 </Contents>
             </ModalBlock>
@@ -166,8 +176,8 @@ const Modal = ({ closeModal }) => {
         </Container>
     );
 };
-// const Dropdown = styled.Dropdown`
-// `
+
+
 const Input2 = styled.input`
 border-radius: 4px;
   --saf-0: rgba(var(--sk_foreground_high_solid, 134, 134, 134), 1);
@@ -212,14 +222,15 @@ const Background = styled.div`
 
 const ModalBlock = styled.div`
     overflow-y: auto;
-    position: absolute;
-    top: 6.5rem;
+    position: relative;
+    top: 5.1rem;
     border-radius: 10px;
     padding: 1.5rem;
     background-color: white;
     color: black;
     width: 700px;
     box-shadow: 1px 1px 1px 1px gray;
+    margin-bottom: 100px;
 
 `;
 

@@ -9,6 +9,8 @@ import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 const SearchUser = (props) => {
     const dispatch = useDispatch();
     // const channelId = channelInfo.channelId
+
+    const [invitor,setInvitor] = React.useState(false);
     const { closeSearch } = props;
     const channelId = props.channelInfo.channelId;
     const channelName = props.channelInfo.channelName;
@@ -56,10 +58,11 @@ const SearchUser = (props) => {
 
     const AddUser = (userId) => {
         if (userList === "" || userList === null) {
-            setUserList([userId])
+            setUserList([userId]) 
+            setInvitor(false)
         } else {
             setUserList([...userList, userId])
-        }
+        } setInvitor(true)
     }
 
     function FindNick(id) {
@@ -115,16 +118,16 @@ const SearchUser = (props) => {
                                 )
                             })}
                         </div>
-                        <div style={{ border: "1px solid gray", margin: "10px", padding: "15px" }}>
+                        {invitor ? <div style={{  border: "1px solid gray", float: 'auto' ,margin: "10px", padding: "15px" ,borderRadius: "10px"}}>
                             {userList.map((Id, index) => {
                                 return (
                                     <div key={index} style={{ display: "flex", flexDirection: "row" }}>
-                                        <div style={{ width: "95%", textAlign: "left" }}>{FindNick(Id)}</div>
-                                        <button onClick={() => DelUser(index)}>x</button>
+                                        <div style={{ width: "95%", textAlign: "left" }} >{FindNick(Id)}</div>
+                                        <button  style={{  display: "inline-block" ,width: "20px",backgroundColor:"white" , border: "1px solid white"   }}  onClick={() => DelUser(index)}>✖️</button>
                                     </div>
                                 )
                             })}
-                        </div>
+                        </div>: ""}
                     </Label>
                     <Button onClick={AddUserList}>추가</Button>
                 </Contents>

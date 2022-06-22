@@ -112,7 +112,7 @@ const Main = () => {
                 <LeftHead></LeftHead>
                 <CenterHead>
                     <SearchID onClick={()=>{setOpenSearch(true)}}>채널에 추가할 아이디 검색</SearchID>
-                    {openSearch && <SearchUser closeSearch={setOpenSearch} channelInfo={channelInfo} />}
+                    {openSearch  && <SearchUser closeSearch={setOpenSearch} channelInfo={channelInfo} />}
                 </CenterHead>
                 <RightHead>
                     <ProfileImg src={iconUrl} onClick={UserProfile} />

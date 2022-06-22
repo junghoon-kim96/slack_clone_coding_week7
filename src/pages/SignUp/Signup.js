@@ -14,7 +14,7 @@ function SignUp() {
     const pw_check_ref = React.useRef(null);
     const nickname_ref = React.useRef(null);
 
-    const [profile,setprofile] = React.useState("");
+    const [profile,setprofile] = React.useState("https://opgg-com-image.akamaized.net/attach/images/20220220075306.1538486.jpg");
     const [username, setUsername] = React.useState("");
     const [password, setPwd] = React.useState("");
     const [pwdCheck, setPwdCheck] = React.useState("");
