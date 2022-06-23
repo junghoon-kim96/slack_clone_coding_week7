@@ -111,8 +111,9 @@
 
 ## 👍SLACK clond coding TEAM👍 
 
-- 최성우(front) - 하율찬(front) - 김이안(backend) - 김창규(backend)  -김정훈(backend Team Leader)
-
+- 최성우(front)  -김정훈(backend Team Leader)
+- 하율찬(front) - 김이안(backend) 
+                - 김창규(backend) 
 <br/>
 <br/>
 
