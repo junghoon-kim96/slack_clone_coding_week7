@@ -57,12 +57,12 @@
 <br/>
 
 ##  실제 슬랙  
-<img src="https://user-images.githubusercontent.com/107375500/175225603-3b4cd83d-2b60-4df2-867b-b890899faa18.gif" width="300" height="300">
+<img src="https://user-images.githubusercontent.com/107375500/175225603-3b4cd83d-2b60-4df2-867b-b890899faa18.gif" width="400" height="300">
 
 <br/>
 
 ##  클론 슬랙  
-<img src="https://user-images.githubusercontent.com/107375500/175224632-38570521-6163-4394-ad58-c627627535eb.gif" width="300" height="300">
+<img src="https://user-images.githubusercontent.com/107375500/175224632-38570521-6163-4394-ad58-c627627535eb.gif" width="500" height="350">
 
 
 
