@@ -17,8 +17,6 @@ const Main = () => {
     const navigate = useNavigate();
     const dispatch = useDispatch();
 
-
-
     // 채널 리스트 get axios
     React.useEffect(() => {
         dispatch(loadChannelAxios());
@@ -71,9 +69,6 @@ const Main = () => {
         setProfile(true);
     }
 
-    //친구 검색창 열고 닫기
-    const [searchBar,setSearchBar] = React.useState(false)
-
     //프로필 창 열고 닫기
     const [profile, setProfile] = React.useState(false);
 
@@ -109,6 +104,7 @@ const Main = () => {
     // 모달창 오픈
     const [openMoadal, setOpenMoadal] = React.useState(false);
     const [openSearch, setOpenSearch] = React.useState(false);
+    const [searchBar, setSearchBar] = React.useState(false);
     // 조원 이름
     const channel = {
         dm: ["최성우", "하율찬", "김정훈", "김창규", "김이안"]
@@ -119,14 +115,8 @@ const Main = () => {
             <Head >
                 <LeftHead></LeftHead>
                 <CenterHead>
-<<<<<<< HEAD
                     <SearchID onClick={() => { setOpenSearch(true) }}>채널에 추가할 아이디 검색</SearchID>
                     {openSearch && searchBar && <SearchUser closeSearch={setOpenSearch} channelInfo={channelInfo} />}
-=======
-                    <SearchID onClick={()=>{setOpenSearch(true)}}>채널에 추가할 아이디 검색</SearchID>
-                    {openSearch  && searchBar && <SearchUser closeSearch={setOpenSearch} channelInfo={channelInfo} />}
-                    
->>>>>>> cc45b45ecb629e280faa8365327601656f926720
                 </CenterHead>
                 <RightHead>
                     <ProfileImg src={iconUrl} onClick={UserProfile} />
@@ -159,8 +149,7 @@ const Main = () => {
                                 {chaList.map((list, idx) => {
                                     return (
                                         <div style={{ display: "flex", flexDirection: "row" }} key={idx}>
-                                            <LeftMapList onClick={()=>{SetChannelInfo(list);
-                                                         setSearchBar(true);}}>
+                                            <LeftMapList onClick={() => {SetChannelInfo(list); setSearchBar(true);}}>
                                                 {(list.isPrivate === true) ?
                                                     (<FontAwesomeIcon icon="fa-lock" />)
                                                     : (<FontAwesomeIcon icon="fa-hashtag" />)}
@@ -199,7 +188,7 @@ const Main = () => {
                         ) : (null)}
                     </LeftChannel>
                 </LefeBody>
-                <ChatBox channelInfo={channelInfo} />
+                <ChatBox channelInfo={channelInfo} openProfile={setProfile} userInfo={setProInfo} />
                 {profile ? (
                     <RightBody>
                         <Profile>
@@ -220,7 +209,9 @@ const Main = () => {
                                 <EmailInfo>{proInfo.username}</EmailInfo>
                             </EmailDiv >
                         </InfoDiv>
-                        <button style={{ width: "80%", margin: "0 auto" }} onClick={logout}>로그아웃</button>
+                        {(proInfo.username === username) ? (
+                            <button style={{ width: "80%", margin: "0 auto" }} onClick={logout}>로그아웃</button>
+                        ) : (null)}
                     </RightBody>
                 ) : (null)}
             </Body>
@@ -230,7 +221,7 @@ const Main = () => {
 
 const Page = styled.div`
 width : 100vw;
-height: 100vh;
+height: 95vh;
 display: flex;
 flex-direction: column;
 `;
@@ -244,6 +235,7 @@ align-items: center;
 position: relative;
 z-index: 203;
 min-width: 0;
+padding:10px;
 height: 44px;
 `
 const LeftHead = styled.div`
@@ -251,7 +243,7 @@ display: flex;
 align-items: center;
 justify-content: center;
 color: white;
-width: 10vw;
+width: 20vw;
 height: 100%;
 margin: 0;
 `;
@@ -278,7 +270,7 @@ margin:0;
 
 const SearchID = styled.button`
 align-items: center;
-justify-content: space-between;
+text-align: left;
 margin: 0;
 width: 80%;
 background-color: rgba(255, 255, 255, 0.2);
