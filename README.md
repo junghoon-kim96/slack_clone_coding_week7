@@ -62,7 +62,7 @@
 <br/>
 
 ##  클론 슬랙  
-<img src="https://user-images.githubusercontent.com/107375500/175224632-38570521-6163-4394-ad58-c627627535eb.gif" width="300" height="">
+<img src="https://user-images.githubusercontent.com/107375500/175224632-38570521-6163-4394-ad58-c627627535eb.gif" width="300" height="300">
 
 
 
