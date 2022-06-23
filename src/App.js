@@ -6,8 +6,8 @@ import SignUp from "./pages/SignUp/Signup"
 
 //font-awesome
 import { library } from '@fortawesome/fontawesome-svg-core'
-import { faHashtag, faLock, faLockOpen, faPaperPlane, faPen } from '@fortawesome/free-solid-svg-icons'
-library.add(faLock, faLockOpen, faPen, faPaperPlane, faHashtag);
+import { faHashtag, faLock, faLockOpen, faPaperPlane, faPen, faXmark } from '@fortawesome/free-solid-svg-icons'
+library.add(faLock, faLockOpen, faPen, faPaperPlane, faHashtag, faXmark);
 
 
 function App() {

@@ -6,6 +6,8 @@ import { AddChaListAxios } from "../../redux/modules/channel";
 import FormControlLabel from '@mui/material/FormControlLabel';
 import Switch from '@mui/material/Switch';
 
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+
 const Modal = ({ closeModal }) => {
     const dispatch = useDispatch();
 
@@ -115,7 +117,9 @@ const Modal = ({ closeModal }) => {
         <Container>
             <Background onClick={() => closeModal(false)} />
             <ModalBlock >
-                <Close onClick={() => closeModal(false)} >✖️</Close>
+                <Close onClick={() => closeModal(false)}>
+                    <FontAwesomeIcon icon="fa-xmark" />
+                </Close>
                 <Contents>
                     채널생성  <br />
                     <Label >
@@ -170,7 +174,9 @@ const Modal = ({ closeModal }) => {
                                 return (
                                     <div key={index} style={{ display: "flex", flexDirection: "row" }}>
                                         <div style={{ width: "95%", textAlign: "left" }}>{searchName[index]}</div>
-                                        <button style={{ display: "inline-block", width: "20px", backgroundColor: "white", border: "1px solid white" }} onClick={() => DelUser(index)}>✖️</button>
+                                        <button style={{ display: "inline-block", width: "20px", backgroundColor: "white", border: "1px solid white" }} onClick={() => DelUser(index)}>
+                                            <FontAwesomeIcon icon="fa-xmark" />
+                                        </button>
                                     </div>
                                 )
                             })}

@@ -10,7 +10,7 @@ const SearchUser = (props) => {
     const dispatch = useDispatch();
     // const channelId = channelInfo.channelId
 
-    const [invitor,setInvitor] = React.useState(false);
+    const [invitor, setInvitor] = React.useState(false);
     const { closeSearch } = props;
     const channelId = props.channelInfo.channelId;
     const channelName = props.channelInfo.channelName;
@@ -58,10 +58,12 @@ const SearchUser = (props) => {
 
     const AddUser = (userId) => {
         if (userList === "" || userList === null) {
-            setUserList([userId]) 
+            setUserList([userId])
             setInvitor(false)
+            setSearchName([FindNick(userId)])
         } else {
             setUserList([...userList, userId])
+            setSearchName([...searchName, FindNick(userId)])
         } setInvitor(true)
     }
 
@@ -79,23 +81,31 @@ const SearchUser = (props) => {
         }
     }
 
+    const [searchName, setSearchName] = useState([])
+
     const DelUser = (index) => {
         const new_user = userList.filter((l, idx) => {
             return parseInt(index) !== idx;
         });
         setUserList(new_user);
+        const new_search = searchName.filter((l, idx) => {
+            return parseInt(index) !== idx;
+        });
+        setSearchName(new_search);
     }
 
     return (
         <Container>
             <Background onClick={() => closeSearch(false)} />
             <ModalBlock >
-                <Close onClick={() => closeSearch(false)} >x</Close>
+                <Close onClick={() => closeSearch(false)} >
+                    <FontAwesomeIcon icon="fa-xmark" />
+                </Close>
                 <Contents>
                     <div>
                         {(isPrivate === true) ?
-                            (<FontAwesomeIcon icon="fa-lock" style={{ color: "gray", marginRight:"5px" }} />)
-                            : (<FontAwesomeIcon icon="fa-hashtag" style={{ color: "gray", marginRight:"5px" }} />)}
+                            (<FontAwesomeIcon icon="fa-lock" style={{ color: "gray", marginRight: "5px" }} />)
+                            : (<FontAwesomeIcon icon="fa-hashtag" style={{ color: "gray", marginRight: "5px" }} />)}
                         {channelName}에 사용자 추가<br />
                     </div>
                     <Label >
@@ -118,16 +128,18 @@ const SearchUser = (props) => {
                                 )
                             })}
                         </div>
-                        {invitor ? <div style={{  border: "1px solid gray", float: 'auto' ,margin: "10px", padding: "15px" ,borderRadius: "10px"}}>
+                        {invitor ? <div style={{ border: "1px solid gray", float: 'auto', margin: "10px", padding: "15px", borderRadius: "10px" }}>
                             {userList.map((Id, index) => {
                                 return (
                                     <div key={index} style={{ display: "flex", flexDirection: "row" }}>
-                                        <div style={{ width: "95%", textAlign: "left" }} >{FindNick(Id)}</div>
-                                        <button  style={{  display: "inline-block" ,width: "20px",backgroundColor:"white" , border: "1px solid white"   }}  onClick={() => DelUser(index)}>✖️</button>
+                                        <div style={{ width: "95%", textAlign: "left" }} >{searchName[index]}</div>
+                                        <button style={{ display: "inline-block", width: "20px", backgroundColor: "white", border: "1px solid white" }} onClick={() => DelUser(index)}>
+                                            <FontAwesomeIcon icon="fa-xmark" />
+                                        </button>
                                     </div>
                                 )
                             })}
-                        </div>: ""}
+                        </div> : ""}
                     </Label>
                     <Button onClick={AddUserList}>추가</Button>
                 </Contents>

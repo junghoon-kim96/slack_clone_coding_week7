@@ -38,7 +38,7 @@ const Main = () => {
     const DelChaList = (channelId) => {
         dispatch(DelChaListAxios(FindChIndex(channelId), channelId));
         SetChannelInfo({});
-        dispatch(delchatlist());  
+        dispatch(delchatlist());
     }
 
 
@@ -96,7 +96,7 @@ const Main = () => {
         localStorage.removeItem("username");
         localStorage.removeItem("nickname");
         localStorage.removeItem("iconUrl");
-        dispatch(delchatlist());       
+        dispatch(delchatlist());
         alert("로그아웃 하셨습니다.");
         navigate("/login");
     }
@@ -149,7 +149,7 @@ const Main = () => {
                                 {chaList.map((list, idx) => {
                                     return (
                                         <div style={{ display: "flex", flexDirection: "row" }} key={idx}>
-                                            <LeftMapList onClick={() => {SetChannelInfo(list); setSearchBar(true);}}>
+                                            <LeftMapList onClick={() => { SetChannelInfo(list); setSearchBar(true); }}>
                                                 {(list.isPrivate === true) ?
                                                     (<FontAwesomeIcon icon="fa-lock" />)
                                                     : (<FontAwesomeIcon icon="fa-hashtag" />)}
@@ -157,7 +157,9 @@ const Main = () => {
                                             </LeftMapList>
                                             {
                                                 (list.isOwner === true) ?
-                                                    (<div onClick={() => { DelChaList(list.channelId) }}>x</div>) : (null)
+                                                    (<div onClick={() => { DelChaList(list.channelId) }}>
+                                                        <FontAwesomeIcon icon="fa-xmark" />
+                                                    </div>) : (null)
                                             }
                                         </div>
                                     )
