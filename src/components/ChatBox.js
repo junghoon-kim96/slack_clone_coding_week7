@@ -13,6 +13,8 @@ import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 const ChatBox = (props) => {
     const dispatch = useDispatch();
     //채널 정보
+    const {openProfile} = props;
+    const {userInfo} = props;
     const { channelInfo } = props;
     const channelId = channelInfo.channelId
     const headers = { "Authorization": localStorage.getItem('access_token') };
@@ -57,19 +59,21 @@ const ChatBox = (props) => {
         console.log(err);
     }
 
-    // const onMessageReceived = (payload) => {
-    //     console.log(payload)
-    //     // var payloadData = JSON.parse(payload.body);
-    //     // console.log(payloadData);
-    // const newchating = [payload, ...chattinglist];
-    //     setChatting(newchating);
-    // }
-
     const sendMessage = () => {
         client.send(`/pub/message/${channelId}`, headers, JSON.stringify({
             channelId: channelId,
             message: message,
         }));
+    }
+
+    //채팅 유저 정보
+    const OpenPro = (list) => {
+        openProfile(true)
+        userInfo({
+            username: list.username,
+            nickname: list.nickname,
+            iconUrl: list.iconUrl,
+        })
     }
 
     return (
@@ -81,15 +85,12 @@ const ChatBox = (props) => {
                         : (<FontAwesomeIcon icon="fa-hashtag" style={{ color: "gray" }} />)}
                     <div style={{ marginLeft: "10px" }}>{channelInfo.channelName}</div>
                 </ChannelTitle>
-                {/* <div>
-                    {channelInfo.description}
-                </div> */}
             </CenterHeader>
             <ChattingDiv>
                 {chattinglist.map((list, idx) => {
                     return (
                         <SingleMes key={idx}>
-                            <ChatImg src={list.iconUrl} />
+                            <ChatImg src={list.iconUrl} onClick={()=>OpenPro(list)}/>
                             <SingleMesInfo>
                                 <div style={{ fontWeight: "600" }}>{list.nickname}</div>
                                 <div>{list.message}</div>
@@ -111,6 +112,7 @@ const ChatBox = (props) => {
 
 const CenterBody = styled.div`
 width:100%;
+height: 100%;
 background-color: white;
 `;
 
@@ -134,7 +136,7 @@ margin-right: 72%;
 
 const ChattingDiv = styled.div`
 display: flex;
-overflow-y: auto ;
+overflow-y: scroll ;
 flex-direction: column-reverse;
 width: calc(100%-20px);
 height: 70%;
