@@ -9,7 +9,7 @@ import Switch from '@mui/material/Switch';
 const Modal = ({ closeModal }) => {
     const dispatch = useDispatch();
 
-    const [invitor,setInvitor] = React.useState(false);
+    const [invitor, setInvitor] = React.useState(false);
     const [close, setClose] = React.useState(false);
     const [loading, setLoading] = React.useState(false);
     const [userList, setUserList] = React.useState([]);
@@ -68,15 +68,16 @@ const Modal = ({ closeModal }) => {
 
     const AddUser = (userId) => {
         if (userList === "" || userList === null) {
-            setUserList([userId]) 
+            setUserList([userId])
             setInvitor(false)
+            setSearchName([FindNick(userId)])
         } else {
             setUserList([...userList, userId])
+            setSearchName([...searchName, FindNick(userId)])
         } setInvitor(true)
     }
 
-    const toggleHandle =()=>{
-
+    const toggleHandle = () => {
         setLoading(!loading)
         setClose(!close);
     }
@@ -96,11 +97,18 @@ const Modal = ({ closeModal }) => {
         }
     }
 
+    const [searchName, setSearchName] = useState([])
+
+
     const DelUser = (index) => {
-        const new_user = userList.filter((l,idx)=> {
+        const new_user = userList.filter((l, idx) => {
             return parseInt(index) !== idx;
         });
         setUserList(new_user);
+        const new_search = searchName.filter((l, idx) => {
+            return parseInt(index) !== idx;
+        });
+        setSearchName(new_search);
     }
 
     return (
@@ -119,7 +127,7 @@ const Modal = ({ closeModal }) => {
                     <Label >
                         <span>채널설명</span>
                         <div>
-                            <Input type="text" ref={Des_ref} onChange={Descript } />
+                            <Input type="text" ref={Des_ref} onChange={Descript} />
                         </div>
                     </Label>
                     비공개로 만들기<br />
@@ -137,38 +145,38 @@ const Modal = ({ closeModal }) => {
                         }
                         label="비공개 활성화"
                     />
-                    {close ?  <Label >
+                    {close ? <Label >
                         <span>친구검색하기</span>
                         <div>
                             <Input2 type="text" value={value} onChange={onChange} />
                             <Button onClick={onSearch}>search </Button>
                         </div>
-                        <div style={{ height: "200px",overflowY:"auto"}}>
-                        {searchUser.map((list, index) => {
-                            return (
-                                <div key={index} style={{ display: "flex", flexDirection: "row" }}>
-                                    <img src={list.iconUrl} style={{ width: "50px", height: "50px", borderRadius:"10px"}} />
-                                    <div style={{ textAlign: "left", margin: "0 10px" }}>
-                                        <div>{list.nickname}</div>
-                                        <div>{list.username}</div>
-                                    </div>
-                                    <Button onClick={() => AddUser(list.userId)}>ADD</Button>
-                                </div>
-                            )
-                        })}
-                        </div>
-                        {invitor ? <div style={{  border: "1px solid gray", float: 'auto' ,margin: "10px", padding: "15px" ,borderRadius: "10px"}}>
-                            {userList.map((Id, index) => {
+                        <div style={{ height: "200px", overflowY: "auto" }}>
+                            {searchUser.map((list, index) => {
                                 return (
                                     <div key={index} style={{ display: "flex", flexDirection: "row" }}>
-                                        <div style={{ width: "95%", textAlign: "left" }} >{FindNick(Id)}</div>
-                                        <button  style={{  display: "inline-block" ,width: "20px",backgroundColor:"white" , border: "1px solid white"   }}  onClick={() => DelUser(index)}>✖️</button>
+                                        <img src={list.iconUrl} style={{ width: "50px", height: "50px", borderRadius: "10px" }} />
+                                        <div style={{ textAlign: "left", margin: "0 10px" }}>
+                                            <div>{list.nickname}</div>
+                                            <div>{list.username}</div>
+                                        </div>
+                                        <Button onClick={() => AddUser(list.userId)}>ADD</Button>
                                     </div>
                                 )
                             })}
-                        </div>: ""}
-                    </Label>:""}
-                   
+                        </div>
+                        {invitor ? <div style={{ border: "1px solid gray", float: 'auto', margin: "10px", padding: "15px", borderRadius: "10px" }}>
+                            {userList.map((Id, index) => {
+                                return (
+                                    <div key={index} style={{ display: "flex", flexDirection: "row" }}>
+                                        <div style={{ width: "95%", textAlign: "left" }}>{searchName[index]}</div>
+                                        <button style={{ display: "inline-block", width: "20px", backgroundColor: "white", border: "1px solid white" }} onClick={() => DelUser(index)}>✖️</button>
+                                    </div>
+                                )
+                            })}
+                        </div> : ""}
+                    </Label> : ""}
+
                     <Button onClick={AddChaList}>생성</Button>
                 </Contents>
             </ModalBlock>

@@ -221,7 +221,7 @@ const Main = () => {
 
 const Page = styled.div`
 width : 100vw;
-height: 95vh;
+height: 100vh;
 display: flex;
 flex-direction: column;
 `;
