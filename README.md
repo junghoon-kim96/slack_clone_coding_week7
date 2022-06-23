@@ -132,16 +132,16 @@
 ->filter를 사용해서 해결하였습니다.
 
 @BE
--> cors 설정에서 ExposedHeader를 *로 설정함
+@BE
+1. cors 설정에서 ExposedHeader를 *로 설정함
 -> 로그아웃 후 바로 로그인 할시 ExposedHeader가 * 인데도 헤더에 접근이 불가능함
 -> 새로 고침 후 로그인 하면 접근 가능
 -> 프론트에서 axios 요청시 같은 요청인데 헤더에 접근이 가능했다 불가능했다 함
 -> ExposedHeader를 Authorization으로 명시해 주니 항상 접근 가능하게 됨(해결은 됐지만 이유를 모르겠음)
-유저가 접근 가능한 채널 목록을 InvitedUserChannels 테이블에서 뽑아옴
+2. 유저가 접근 가능한 채널 목록을 InvitedUserChannels 테이블에서 뽑아옴
 -> 공개 채널은 모두 접근 가능해서 InvitedUserChannel 에 채널 정보가 없음
 -> Channel 에서 공개채널 목록을 뽑아서 붙이는 로직이 추가되어야함
 -> 두 로직을 한 로직으로 처리하기 위해 Channel Repository에서  findAllByIsPrivateOrInvitedUserChannels_UserId 함수를 씀 ( Channels 안의 InvitedUserChannels 안의 UserId로 조회)
-채널 삭제할 때 InvitedUserChannel , Channel 순으로 삭제함
+3. 채널 삭제할 때 InvitedUserChannel , Channel 순으로 삭제함
 -> Message를 보낸 상태에서 500 에러가 SQLIntegrityConstraintViolationException: 발생함
 -> InvitedUserChannel , Message, Channel 순서로 삭제함 (해결)
-
