@@ -7,6 +7,7 @@ import axios from "axios";
 
 const LOAD = "chatlist/LOAD";
 const ADD = "chatlist/ADD";
+const DELETE = "chatlist/DELETE"
 
 const initialState = {
   list: [],
@@ -19,6 +20,10 @@ export function loadchatlist(chatlist_list) {
 
 export function addchatlist(chatlist) {
   return { type: ADD, chatlist: chatlist };
+}
+
+export function delchatlist() {
+  return { type: DELETE};
 }
 
 // // middlewares
@@ -58,6 +63,10 @@ export default function reducer(state = initialState, action = {}) {
     case "chatlist/ADD": {
       const new_chatlist_list = [ action.chatlist, ...state.list];
       return { list: new_chatlist_list };
+    }
+    case "chatlist/DELETE":{
+      const empty_chatlist_list = [];
+      return {list: empty_chatlist_list};
     }
 
     default:

@@ -1,94 +1,99 @@
 import React from 'react';
-import { useNavigate,Link } from 'react-router-dom'
+import { useNavigate, Link } from 'react-router-dom'
 import styled from 'styled-components'
 import axios from 'axios'
 
 const Login = () => {
-    
-    const navigate = useNavigate();
-    const id_ref = React.useRef(null);
-    const pw_ref = React.useRef(null);
 
-    let [active, setActive] = React.useState(false);
+  const navigate = useNavigate();
+  const id_ref = React.useRef(null);
+  const pw_ref = React.useRef(null);
 
-    const [username, setUserName] = React.useState("");
-    const [password, setPwd] = React.useState("");
+  let [active, setActive] = React.useState(false);
 
-    const ActiveIsPassedLogin = () => {
-        return username.includes('@') && password.length >= 5
-          ? setActive(true)
-          : setActive(false);
-      };
+  const [username, setUserName] = React.useState("");
+  const [password, setPwd] = React.useState("");
 
-   const handlerId = (e)=> {
-        setUserName(e.target.value);
-   }
-
-   const handlerPw = (e)=> {
-       setPwd(e.target.value);
-}
-
-    
-    const loginAxios = () => {
-        axios({
-          method: 'POST',
-          url:"/api/login", 
-          data : {
-            username: username,
-            password: password,
-          },
-          baseURL:"http://54.180.154.178"
-        }).then(function (response) {
-          console.log(response)
-            alert(response.data.message); 
-            localStorage.setItem('access_token', response.headers.authorization);
-            localStorage.setItem('username',response.data.userinfo.username);
-            localStorage.setItem('nickname',response.data.userinfo.nickname);
-            localStorage.setItem('iconUrl',response.data.userinfo.iconUrl);
-            navigate('/main');
-        }).catch(function (error) {
-            alert(error.response.data.message);
-            console.log(error)
-        })
-    }   
-
-
-    return (
-        <div>
-             <LinkContainer>
-             Slack을 처음 사용하시나요? <br/>
-          <Link to="/signup">계정생성</Link>
-        </LinkContainer>
-        <Header><img src='https://raw.githubusercontent.com/lnuvy/slack-clone-front/master/src/shared/images/slackLogo.png'/></Header>
-        <Form>
-          <Label>
-            <span>이메일 주소</span>
-            <div>
-              
-              <Input type="email" id="email" placeholder='abc@example.com' ref={id_ref} onChange={handlerId}
-              onKeyUp={ActiveIsPassedLogin} />
-            </div>
-          </Label>
-          <Label>
-            <span>비밀번호</span>
-            <div>
-              <Input type="password" id='password' placeholder='비밀번호를 입력해주세요' ref={pw_ref} onChange={handlerPw}
-              onKeyUp={ActiveIsPassedLogin} />
-            </div>
-          
-          </Label>
-          
-          <Button id="login_btn" onClick={loginAxios} className={active ? 'ActiveLoginBtn' : 'LoginBtn'}
-           disabled={username === '' || password === '' ? true : false}>로그인</Button>
-          
-          
-        </Form>
-       
-      </div>
-    );
+  const ActiveIsPassedLogin = () => {
+    return username.includes('@') && password.length >= 5
+      ? setActive(true)
+      : setActive(false);
   };
 
- const Header = styled.header`
+  const handlerId = (e) => {
+    setUserName(e.target.value);
+  }
+
+  const handlerPw = (e) => {
+    setPwd(e.target.value);
+  }
+
+
+  const loginAxios = () => {
+    axios({
+      method: 'POST',
+      url: "/api/login",
+      data: {
+        username: username,
+        password: password,
+      },
+      baseURL: "http://54.180.154.178"
+    }).then(function (response) {
+      console.log(response)
+      alert(response.data.message);
+      localStorage.setItem('access_token', response.headers.authorization);
+      localStorage.setItem('username', response.data.userinfo.username);
+      localStorage.setItem('nickname', response.data.userinfo.nickname);
+      localStorage.setItem('iconUrl', response.data.userinfo.iconUrl);
+      navigate('/main');
+    }).catch(function (error) {
+      alert(error.response.data.message);
+      console.log(error)
+    })
+  }
+
+  //엔터키 작동
+  const onKeyPress = (e) => {
+    if (e.key == "Enter") {
+      loginAxios();
+    }
+}
+
+
+  return (
+    <div>
+      <LinkContainer>
+        Slack을 처음 사용하시나요? <br />
+        <Link to="/signup">계정생성</Link>
+      </LinkContainer>
+      <Header><img src='https://raw.githubusercontent.com/lnuvy/slack-clone-front/master/src/shared/images/slackLogo.png' /></Header>
+      <Form>
+        <Label>
+          <span>이메일 주소</span>
+          <div>
+
+            <Input type="email" id="email" placeholder='abc@example.com' ref={id_ref} onChange={handlerId}
+              onKeyUp={ActiveIsPassedLogin} onKeyPress={onKeyPress} />
+          </div>
+        </Label>
+        <Label>
+          <span>비밀번호</span>
+          <div>
+            <Input type="password" id='password' placeholder='비밀번호를 입력해주세요' ref={pw_ref} onChange={handlerPw}
+              onKeyUp={ActiveIsPassedLogin} onKeyPress={onKeyPress}/>
+          </div>
+
+        </Label>
+
+        <Button id="login_btn" onClick={loginAxios} className={active ? 'ActiveLoginBtn' : 'LoginBtn'}
+          disabled={username === '' || password === '' ? true : false}>로그인</Button>
+      </Form>
+
+    </div>
+  );
+};
+
+const Header = styled.header`
   text-align: center;
   margin-top: 100px;
   margin-bottom: 50px;
@@ -97,7 +102,7 @@ const Login = () => {
         }
 `;
 
- const Form = styled.div`
+const Form = styled.div`
   margin: 0 auto;
   width: 400px;
   max-width: 400px;
@@ -116,7 +121,7 @@ const Label = styled.label`
   }
 `;
 
- const Input = styled.input`
+const Input = styled.input`
   border-radius: 4px;
   --saf-0: rgba(var(--sk_foreground_high_solid, 134, 134, 134), 1);
   border: 1px solid var(--saf-0);
@@ -135,12 +140,12 @@ const Label = styled.label`
   }
 `;
 
-const Button  = styled.button`
+const Button = styled.button`
   margin-bottom: 12px;
   width: 100%;
   max-width: 100%;
   color:#fff;
-  background-color: ${props=>props.disabled? 'gray': '#4a154b;' };
+  background-color: ${props => props.disabled ? 'gray' : '#4a154b;'};
   border: none;
   font-size: 18px;
   font-weight: 900;
@@ -154,7 +159,7 @@ const Button  = styled.button`
   border-radius: 4px;
   box-shadow: 0 1px 4px rgba(0, 0, 0, 0.3);
 
-  ${props=>props.disabled? '' : `&:hover {
+  ${props => props.disabled ? '' : `&:hover {
     background-color: rgba(74, 21, 75, 0.9);
     border: none;
   }` };

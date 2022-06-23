@@ -13,8 +13,8 @@ import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 const ChatBox = (props) => {
     const dispatch = useDispatch();
     //채널 정보
-    const {openProfile} = props;
-    const {userInfo} = props;
+    const { openProfile } = props;
+    const { userInfo } = props;
     const { channelInfo } = props;
     const channelId = channelInfo.channelId
     const headers = { "Authorization": localStorage.getItem('access_token') };
@@ -22,12 +22,12 @@ const ChatBox = (props) => {
     const [message, setMessage] = React.useState("");
     //채팅 기록
     const chattinglist = useSelector((state) => state.chatlist.list);
-    
+
     React.useEffect(() => {
         if (channelId !== undefined) {
             dispatch(LoadChatAxios(channelId));
             connect();
-            return () => {client.disconnect()};
+            return () => { client.disconnect() };
         }
     }, [channelId])
 
@@ -47,7 +47,7 @@ const ChatBox = (props) => {
                 console.log(message.body)
                 if (message.body) {
                     const new_Data = JSON.parse(message.body);
-                     dispatch(addchatlist(new_Data));
+                    dispatch(addchatlist(new_Data));
                 } else {
                     alert("got empty message");
                 }
@@ -64,6 +64,7 @@ const ChatBox = (props) => {
             channelId: channelId,
             message: message,
         }));
+        setMessage("");
     }
 
     //채팅 유저 정보
@@ -74,6 +75,13 @@ const ChatBox = (props) => {
             nickname: list.nickname,
             iconUrl: list.iconUrl,
         })
+    }
+
+    //엔터키 입력 시
+    const onKeyPress = (e) => {
+        if (e.key == "Enter") {
+            sendMessage();
+        }
     }
 
     return (
@@ -90,7 +98,7 @@ const ChatBox = (props) => {
                 {chattinglist.map((list, idx) => {
                     return (
                         <SingleMes key={idx}>
-                            <ChatImg src={list.iconUrl} onClick={()=>OpenPro(list)}/>
+                            <ChatImg src={list.iconUrl} onClick={() => OpenPro(list)} />
                             <SingleMesInfo>
                                 <div style={{ fontWeight: "600" }}>{list.nickname}</div>
                                 <div>{list.message}</div>
@@ -101,8 +109,10 @@ const ChatBox = (props) => {
                 }
             </ChattingDiv>
             <MessageBox>
-                <MessageInput
-                    onChange={(e) => { setMessage(e.target.value) }}
+                <MessageInput 
+                value={message}
+                onKeyPress={onKeyPress}
+                    onChange={(e) => { setMessage(e.target.value); }}
                     placeholder="메세지 보내기" />
                 <FontAwesomeIcon icon="fa-paper-plane" size="2x" style={{ color: "gray" }} onClick={sendMessage} />
             </MessageBox>

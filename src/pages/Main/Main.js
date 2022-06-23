@@ -3,7 +3,8 @@ import styled from "styled-components";
 import logo from "../Login/image/slackLogo.png"
 import { useNavigate } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
-import { loadChannelAxios, addchannel, AddChaListAxios, deletechannel, DelChaListAxios } from "../../redux/modules/channel";
+import { loadChannelAxios, DelChaListAxios } from "../../redux/modules/channel";
+import { delchatlist } from "../../redux/modules/chatlist";
 
 import ChatBox from "../../components/ChatBox"
 import Modal from './Modal'
@@ -94,6 +95,7 @@ const Main = () => {
         localStorage.removeItem("username");
         localStorage.removeItem("nickname");
         localStorage.removeItem("iconUrl");
+        dispatch(delchatlist());       
         alert("로그아웃 하셨습니다.");
         navigate("/login");
     }
@@ -169,7 +171,7 @@ const Main = () => {
                             ) : (
                                 <TriF onClick={isDmOpen}>▼</TriF>
                             )}
-                            <div style={{ marginLeft: "10px" }}>다이렉트 메세지</div>
+                            <div style={{ marginLeft: "10px" }}>Developer</div>
                         </LeftChTi>
                         {Dm ? (
                             <LeftMap>
@@ -178,7 +180,6 @@ const Main = () => {
                                         <LeftMapList key={idx}>
                                             <div style={{ width: "20px", height: "20px" }}>👌</div>
                                             <div style={{ marginLeft: "10px", marginRight: "55%" }}>{list}</div>
-                                            <div>x</div>
                                         </LeftMapList>
                                     )
                                 })}
