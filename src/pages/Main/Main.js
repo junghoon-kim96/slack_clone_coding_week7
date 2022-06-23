@@ -38,6 +38,7 @@ const Main = () => {
     const DelChaList = (channelId) => {
         dispatch(DelChaListAxios(FindChIndex(channelId), channelId));
         SetChannelInfo({});
+        dispatch(delchatlist());  
     }
 
 
@@ -115,7 +116,7 @@ const Main = () => {
                 <LeftHead></LeftHead>
                 <CenterHead>
                     <SearchID onClick={() => { setOpenSearch(true) }}>채널에 추가할 아이디 검색</SearchID>
-                    {openSearch && <SearchUser closeSearch={setOpenSearch} channelInfo={channelInfo} />}
+                    {openSearch && searchBar && <SearchUser closeSearch={setOpenSearch} channelInfo={channelInfo} />}
                 </CenterHead>
                 <RightHead>
                     <ProfileImg src={iconUrl} onClick={UserProfile} />
@@ -130,7 +131,7 @@ const Main = () => {
                         }}>
                             <FontAwesomeIcon icon="fa-pen" />
                         </LeftNewBtn>
-                        {openMoadal && searchBar && <Modal closeModal={setOpenMoadal} />}
+                        {openMoadal && <Modal closeModal={setOpenMoadal} />}
                     </LeftTitle>
                     <LeftChannel>
 

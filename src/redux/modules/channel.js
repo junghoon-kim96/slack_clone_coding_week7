@@ -118,6 +118,7 @@ export const DelChaListAxios = (index, channelId) => {
     )
       .then(response => {
         console.log(response);
+        window.alert(response.data.message)
         dispatch(deletechannel(index));
       })
       .catch((response) => {
