@@ -132,7 +132,6 @@
 ->filter를 사용해서 해결하였습니다.
 
 @BE
-@BE
 1. cors 설정에서 ExposedHeader를 *로 설정함
 -> 로그아웃 후 바로 로그인 할시 ExposedHeader가 * 인데도 헤더에 접근이 불가능함
 -> 새로 고침 후 로그인 하면 접근 가능
