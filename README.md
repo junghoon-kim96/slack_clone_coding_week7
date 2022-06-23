@@ -92,9 +92,9 @@
 - CRUD // 채널 생성 , 삭제
 - 친구 초대 
 - 목록 페이지
-<br/>
-<br/>
 
+
+---
 ## 🛠 구현 페이지
 
 - 스타트 페이지
@@ -105,22 +105,16 @@
 - 친구 초대 모달창
 - 프로필 창
 
- 
-<br/>
-<br/>
 
+--- 
 ## 👍SLACK clond coding TEAM👍 
 
 - 최성우(front)  -김정훈(backend Team Leader)
 - 하율찬(front) - 김이안(backend) 
                 - 김창규(backend) 
-<br/>
-<br/>
 
 
-<br/>
-<br/>
-
+---
 ## Trouble Shooting ❌
 @FE
 1. 소켓 서버에 연결이 바로 되는 것이 아니라, 채널에 입장할 때만 가능하게 싶었습니다.
